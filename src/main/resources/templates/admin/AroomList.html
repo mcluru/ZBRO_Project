@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" >
+<th:block layout:fragment="customStyle">
+	<style th:inline="css" type="text/css">
+
+	</style>
+</th:block>
+<th:block layout:fragment="content">
+<div class="content">
+	
+	<form id="searchForm" th:action="@{/admin/room/list}" method="get">
+	    <div class= "searchBarWrapper">
+			<select id="searchType" name="searchType" class="form-select pt-1">
+			    <option value="seller" th:selected="${searchType == 'seller'}">판매자</option>
+			    <option value="broker" th:selected="${searchType == 'broker'}">부동산</option> <!-- 부동산 검색 옵션 추가 -->
+			    <option value="buildingName" th:selected="${searchType == 'buildingName'}">건물명</option>
+			    <option value="address" th:selected="${searchType == 'address'}">주소</option>
+			</select>
+	        
+	        <input type="text" id="searchInput" name="searchKeyword" placeholder="검색어를 입력해주세요" th:value="${searchKeyword}" class="form-control">
+	        <button type="submit" id="searchBtn" class="btn btn-primary pt-1">검색</button>
+	    </div>
+	    <div class="checkBoxWrapper">
+	        <input type="checkbox" name="type" value="원룸" onchange="submitForm()" th:checked="${types != null && types.contains('원룸')}"class="form-check-input"/> 원룸
+	        <input type="checkbox" name="type" value="고시원" onchange="submitForm()" th:checked="${types != null && types.contains('고시원')}"class="form-check-input"/> 고시원
+	        <input type="checkbox" name="type" value="오피스텔" onchange="submitForm()" th:checked="${types != null && types.contains('오피스텔')}"class="form-check-input"/> 오피스텔
+	    </div>
+	</form>
+
+   	 <div class="tableWrapper">
+   	 
+	     <table id="roomTable">
+	        <thead>
+	             <tr>
+			         <th>
+			            <input type="checkbox" id="checkAllRooms">
+			         </th> 			         
+			         <th>판매자</th>
+			         <th>부동산</th>
+			         <th>건물명</th>			                     
+	                 <th>주소</th>
+	                 <th>타입</th>                 
+	                 <th>월/전세</th>
+	                 <th>보증금</th>                 
+	                 <th>월세</th>
+	                 <th>등록일</th>
+	             </tr>
+	        </thead>
+			<tbody id="roomTableBody">
+			    <tr th:each="room : ${rooms}" th:onclick="'redirectToRoomDetails(\'' + ${room.roomId} + '\');'" style="cursor: pointer;">
+			        <td>			      	
+			            <input type="checkbox" class="roomCheckbox" th:data-room-id="${room.roomId}" th:value="${room.roomId}" onclick="event.stopPropagation();">
+			        </td>
+			        <td th:text="${room.seller.name}"></td>
+			        <td>
+			            <span th:if="${!room.seller.brokerName.isEmpty()}" th:text="${room.seller.brokerName}"></span> <!-- 값이 있을 경우 출력 -->
+			            <span th:unless="${!room.seller.brokerName.isEmpty()}">-</span>
+			        </td>
+			        <td th:text="${room.buildingName}"></td>
+			        <td th:text="${room.address}"></td>			        
+			        <td th:text="${room.type}"></td>   
+			        <td th:text="${room.costType}"></td>
+			        <td th:text="${room.deposit}"></td>			      
+			        <td th:text="${room.monthCost}"></td>
+			        <td th:text="${#temporals.format(room.createDate, 'yyyy-MM-dd')}" id="roomCreateDate"></td>
+			    </tr>
+			</tbody>
+	         
+	     </table>
+     </div>
+	 <th:block th:if="${rooms.empty}">
+	        <p class="noResult">검색결과가 없습니다.</p>
+	 </th:block>	     
+     <form id="deleteForm" action="/seller/room/delete" method="post" style="display: none;">
+        <input type="hidden" id="roomIdsInput" name="roomIds" />
+     </form>
+     <div class ="deleteButtonWrapper" th:if="${!rooms.empty}">
+    	<button id="deleteSelectedRooms">삭제</button>
+   	 </div>  
+
+
+
+
+	<div class="pagination" th:if="${!rooms.empty}">
+	    <ul class="pagination pagination-modal">
+	        <li th:class="${rooms.number > 0 ? '' : 'disabled'}">
+	            <a th:href="@{/admin/room/list(page=${rooms.number - 1}, searchType=${searchType}, searchKeyword=${searchKeyword}, type=${types})}" class="arrow-lf left"><i class="bi bi-rewind-fill"></i></a>
+	        </li>
+	        <li th:class="${rooms.number > 0 ? '' : 'disabled'}">
+	            <a th:href="@{/admin/room/list(page=${rooms.number - 1}, searchType=${searchType}, searchKeyword=${searchKeyword}, type=${types})}" class="arrow arrow-l left"><i class="bi bi-play-fill"></i></a>
+	        </li>
+	        <li th:each="pageNumber : ${#numbers.sequence(0, rooms.totalPages - 1)}" th:class="${pageNumber == rooms.number ? 'active' : ''}">
+	            <a th:href="@{/admin/room/list(page=${pageNumber}, searchType=${searchType}, searchKeyword=${searchKeyword}, type=${types})}" th:text="${pageNumber + 1}" class="num"></a>
+	        </li>
+	        <li th:class="${rooms.number < rooms.totalPages - 1 ? '' : 'disabled'}">
+	            <a th:href="@{/admin/room/list(page=${rooms.number + 1}, searchType=${searchType}, searchKeyword=${searchKeyword}, type=${types})}" class="arrow arrow-r right"><i class="bi bi-play-fill"></i></a>
+	        </li>
+	        <li th:class="${rooms.number < rooms.totalPages - 1 ? '' : 'disabled'}">
+	            <a th:href="@{/admin/room/list(page=${rooms.totalPages - 1}, searchType=${searchType}, searchKeyword=${searchKeyword}, type=${types})}" class="arrow-rf right"><i class="bi bi-fast-forward-fill"></i></a>
+	        </li>
+	    </ul>
+	</div>
+
+</div>
+	
+</th:block>
+<th:block layout:fragment="customScript">
+	<script th:inline="javascript" type="text/javascript">
+	
+	
+	function submitForm() {
+		document.getElementById("searchForm").submit();
+		}
+    function redirectToRoomDetails(roomId) {
+  	  window.location.href = "/seller/room/detail/" + roomId;
+  	}    
+  
+    document.getElementById("checkAllRooms").addEventListener("change", function() {
+      const isChecked = this.checked;
+      document.querySelectorAll(".roomCheckbox").forEach(function(checkbox) {
+          checkbox.checked = isChecked;
+      });
+    });
+     
+	</script>
+</th:block>

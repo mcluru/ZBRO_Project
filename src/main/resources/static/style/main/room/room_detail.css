@@ -1,0 +1,579 @@
+
+.all {
+	
+   width: 100%; 
+  border: 3px solid;
+  border-color:#F3F3F3;
+   padding:50px;
+   padding-left:150px;
+   padding-right:150px;
+   margin-bottom:40px;
+   
+}
+
+
+.costinfo-tag {
+    font-weight: bold;
+}
+
+
+
+.detailinfo-tag {
+	font-weight: bold;
+}
+
+.font-1 {
+	font-weight: bold;
+}
+
+.font-2 {
+	font-weight: bold;
+}
+
+.optionmain {
+	font-weight: bold;
+}
+
+.all-option {
+	font-weight: bold;
+	
+}
+
+.sub-option {
+	font-weight: bold;
+}
+
+.location {
+	font-weight: bold;
+}
+
+.real-review{
+	font-weight: bold;
+}
+.detail-intro-index {
+	font-weight: bold;
+	margin-top:50px;
+}
+.other-room-seller {
+	font-weight: bold;
+}
+.address {
+	color:gray;
+	font-size:14px;
+	text-align:left; 
+}
+.sidemenu-element {
+    font-size: 18px;
+    padding:5px;
+    text-align: left;
+}
+
+.sidemenu {
+	position: sticky;
+	 border-color:#F3F3F3;
+	 min-height: 100%;
+	 width:30%;
+	 margin-left:10px;
+	 
+}
+
+.side-under {
+	position: sticky;
+	top:100px;
+	padding:30px;
+	border: solid;
+	border-color: #d3d3d3;
+	text-align: center;
+
+}
+
+.main {
+	display: flex;
+	justify-content: space-between;
+}
+
+.roominfo {
+	width: 70%;
+	height:100%;
+}
+
+
+.roominfo-wrapper {
+	list-style:none;
+	 padding: 0; /* <ul> 요소의 기본 패딩을 없앰 */
+}
+
+ul.roominfo-wrapper li {
+    padding: 18px 15px; 
+    display:flex;
+    border-bottom: 2px solid lightgray; 
+    margin-right:120px;
+}
+
+ul.roominfo-wrapper li span:nth-child(1){
+	width:40%;
+} 
+ 
+ ul.roominfo-wrapper li span:nth-child(2){
+ 	font-weight:normal;
+	width:60%;
+}   
+
+.room-detail-wrapper {
+	list-style:none;
+	padding: 0;
+}
+
+ul.room-detail-wrapper li {
+    padding:18px 15px;
+    display:flex;
+    border-bottom: 2px solid lightgray; 
+    margin-right:120px;
+}
+ul.room-detail-wrapper li span:nth-child(1){
+	width:40%;	
+}
+
+ul.room-detail-wrapper li span:nth-child(2){
+	font-weight:normal;
+	width:60%;	
+}
+
+.optionmain {
+	margin-bottom:35px;
+}
+
+.location {
+	margin-top:100px;
+	margin-bottom:30px;
+	
+}
+
+.detailinfo-tag {
+	margin-top: 50px;
+}
+.detail-wrapper {
+	margin-top:90px;
+	margin-bottom:50px;
+	
+}
+
+.detail-intro {
+	margin-top:30px;
+	margin-right:20px;
+	padding:30px;
+	background-color:#F3F3F3;
+	
+}
+
+ 
+ .otherroom-wrapper {
+ 	display: flex;
+ 	gap:10px;
+ 	margin-bottom: 40px;
+ }
+.otherroom {
+    display: flex;
+    flex-direction: column;
+}
+.otherroom-sub{
+	display: flex;
+	justify-content: space-between;
+}
+
+.imgwrapper {
+	    
+}
+
+.favoriteAddressContainer{
+		display: flex;
+		justify-content: flex-end;
+}
+	
+.favoriteAddress{
+		margin-right: 10px;
+		font-size: 5px;
+		color: #979797;
+}
+
+.otherroomphoto {
+	height:160px;
+	width:170px;
+	object-fit:cover;
+	gap:10px;
+}
+.review-wrapper {
+	display:flex;
+	justify-content: space-between;
+}
+
+
+ .review-small-1 i {
+	color: #86C69F;
+    margin-right: 1px;
+} 
+/* 리뷰 기능 css */
+
+.rating {
+  display: inline-block;
+   border: 0;
+  margin-right: 15px;
+   direction: rtl; 
+}
+
+.rating > input {
+  display: none;
+   direction: ltr;
+}
+
+.rating > label {
+  color: #ddd;
+}
+
+  .rating > label:before {
+  display: inline-block;
+  font-size: 1rem;
+  padding: .3rem .2rem;
+  margin: 0;
+  cursor: pointer;
+  color: #86C69F  !important ;
+}  
+
+.rating input:checked ~ label,
+.rating label:hover,
+.rating label:hover ~ label {
+
+ color: #86C69F  !important; 
+}
+
+.rating input:checked + .rating label:hover,
+.rating input input:checked ~ label:hover,
+.rating input:checked ~ .rating label:hover ~ label,
+.rating label:hover ~ input:checked ~ label {
+	 color: #86C69F  !important;
+}
+/*리뷰 css끝*/
+
+.big-review {
+	
+	border: 2px solid;
+	border-color:#F3F3F3;
+	 padding:10px;
+	
+}
+
+
+.review-small-2 {
+	background-color:#F3F3F3;
+	
+}
+
+.sidemenu-wrapper {
+	display:flex;
+	justify-content: center; 
+    gap:5px;
+
+}
+.favorite-button {
+
+}
+.favorite-button > button {
+	border: unset;
+	background: unset;
+	margin: 0;
+	border: 0;
+} 
+
+.favorite-button  i{
+	color: #dc3545;
+	font-size: 1.5rem;
+}
+
+.side-under-wrapper {
+	width:100%;
+    justify-content: center;
+	
+}
+.side-under-wrapper td {
+    margin: 20px;
+}
+
+
+.review1 {
+	background-color:#F3F3F3;
+    padding: 10px;
+    margin-bottom: 20px; 
+}
+
+.review-small-1 {
+	display:flex;
+}
+
+.telephone-container {
+    display: flex;
+    justify-content: center;
+}
+.bi-telephone-fill {
+	font-size: 24px; 
+    margin-right: 5px; 
+}
+
+.btn-primary{
+	background-color:white;
+	color:#A6D795;
+	 border: 2px solid #A6D795;
+	 width:250px;
+}
+.btn-primary-write {
+	margin-right: 10px;
+	background-color:white;
+	color:#A6D795;
+	 border: 2px solid #A6D795;
+	 
+}
+
+.btn-primary:hover {
+    background-color: #86C69F; 
+    color: white; 
+    border: 2px solid #86C69F;
+}
+
+.btn-primary-write:hover {
+    background-color: #86C69F; 
+    color: white; 
+    border: 2px solid #86C69F;
+}
+
+
+.building-name {
+    font-size: 18px;
+    text-align: left; 
+}
+
+
+.modal-body {
+	height:300px;
+	display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.modal-content {
+	width: 360px ;
+	height: 400px;
+}
+
+.sub-coment {
+	font-size:13px;
+	color:gray;
+}
+
+.bi-box-arrow-up-right {
+	text-align: right;
+	justify-content: flex-end;
+	
+}
+.all-option-flex {
+	display: flex;
+	border-bottom: 2px solid lightgray;
+	padding: 18px 15px;
+	margin-right: 120px;
+	
+}
+
+.one-option-flex {
+	display: flex;
+	padding: 18px 15px;
+	margin-right:120px;
+}
+
+
+.all-option-flex > div:nth-child(1) {
+	width:40%;
+}
+
+.one-option-flex > div:nth-child(1) {
+	width:40%;
+}
+
+
+.option-flex {
+	display: flex;
+    flex-wrap: wrap;
+    gap:10px;
+    width:100%;
+}
+.option-flex-2 {
+	display: flex;
+    flex-wrap: wrap;
+    gap:10px;
+    width:100%;
+}
+
+.brokername-tag {
+	margin-bottom: 20px;
+    text-align: left;
+    font-size: 18px;
+}
+
+.reviewimg {
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+}
+
+.modal-title {
+	font-weight: bold;
+}
+
+.modal-brokername {
+	font-size: 25px;
+	margin-bottom: 6px;
+}
+}
+
+.broker-num {
+	font-weight: bold;
+}
+
+.descript {
+	font-size:15px;
+	color:gray;
+}
+
+.broker-info2 {
+	text-align: center;
+}
+
+
+/* 			페이징 버튼 				*/
+.pagingblock {
+	/* background: blue; */
+	position: relative;
+	margin-top: 10px;
+}
+.pagingblock > * {
+	/* background: orange; */
+	padding: 0;
+	margin: 0;
+}
+.pagination {
+	padding: 0 auto;
+	margin: 0 auto;
+	display: flex;
+	justify-content: center;
+	position: relative;
+	bottom: 10px;
+}
+.pagination a {
+	width: 30px;
+	height: 30px;
+	align-items: center;
+	justify-content: center;
+	float: left;
+	display: flex;
+	text-decoration: none;
+	/* background: blue; */
+	/* color: #86C69F; */
+	color: #7e8279;
+	line-height: 1.5;
+	border-radius: 6px;
+}
+.pagination .arrow-l .bi-play-fill{
+	transform: rotate(180deg);
+}
+.pagination .num {
+	/* border: 1.5px solid #dbefcf; */
+	border: 1.5px solid #ebeeea;
+	margin: 0 3.5px;
+}
+.num:hover {
+	border: none;
+	background: #86C69F;
+	color: white;
+}
+.left:hover, .right:hover {
+	color: #86C69F;
+}
+.pagination a:active {
+	cursor: default;
+	color: #448860;
+}
+.pagination .active > a {
+	border: none;
+	background: #7e8279;
+	color: white;
+}
+
+/* 페이징 버튼 끝  */
+
+/*캐러셀 버튼색  */
+.bi-arrow-left-square {
+	font-size: 50px;
+	color: gray;
+	
+}
+
+.bi-arrow-right-square {
+	font-size: 50px;
+	color: gray;
+}
+
+.bi-arrow-left-square:hover {
+    color: #86C69F;
+}
+
+.bi-arrow-right-square:hover {
+    color: #86C69F;
+}
+/*캐러셀 버튼색 종료  */
+
+/*판매자 프로필 이미지  */
+.profile-image {
+	margin: 0 auto;
+	width: 80px;
+	height: 80px;
+	border-radius: 50%;
+  	overflow: hidden;
+}
+
+/*리뷰 출력 페이지 사진  */
+.review-photo {
+	margin:5px;
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+  	overflow: hidden;
+	
+}
+
+
+/*후기 flex  */
+.review-flex {
+	display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 5px;
+}
+
+.review1-date    {
+margin-right: 10px;
+color:#9c9b9f;
+
+}
+
+
+.btn-primary-submit{
+	background-color:white;
+	color:#A6D795;
+	 border: 2px solid #A6D795;
+	 
+}
+
+.btn-primary-submit:hover {
+    background-color: #86C69F; 
+    color: white; 
+    border: 2px solid #86C69F;
+    align-items: center;
+}

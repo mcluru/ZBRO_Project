@@ -1,0 +1,391 @@
+body {
+	-webkit-user-select:none;
+	-moz-user-select:none;
+	-ms-user-select:none;
+	user-select:none;
+}
+.draggable {
+  -webkit-user-select:text;
+  -moz-user-select:text;
+  -ms-user-select:text;
+  user-select:text
+}
+.main-wrapper {
+	padding-top: 50px;
+	padding-bottom: 50px;
+	/* background: blue; */
+	text-align: center; /* 전체글자 중앙정렬 */
+	display: flex;
+	flex-direction: column;
+	width:90%;
+	min-width: 900px;
+}
+
+
+/* ------------- 크게 나눈 블럭 ------------- */
+.postBlock {
+	/* background: red; */
+	margin: 0 auto 10px;
+}
+
+
+/* ------------- 상단 타입 ------------- */
+#typeTitle {
+	margin: 0;
+	padding: 0;
+}
+#typeTitle > span{
+	font-family: 'La Belle Aurore', cursive;
+	font-size: 4em;
+	position: relative;
+	top: 30px;
+}
+#typeTitle > h1 {
+	letter-spacing :-0.05em;
+	font-weight: 700;
+	position: relative;
+	bottom: 30px;
+}
+
+
+/* ------------- 상단 카테고리 ------------- */
+#category {
+	padding: 0;
+	margin: 0 0 30px;
+	width: 180px;
+	display: flex;
+	justify-content: space-between;
+}
+#category > li {
+	list-style: none;
+}
+#category > li > a {
+	text-decoration: none;
+	color: #B9B9B9;
+}
+#category > li > a:hover {
+	color: #86C69F;
+}
+#category > li > a.black-underline {
+	font-weight: 600;
+	color: #7e8279;
+	text-decoration: underline;
+	text-decoration-thickness : 2px;
+	text-underline-offset: 9px;
+}
+
+
+/* ------------- 중앙 메인내용 ------------- */
+.post-main {
+	width: 90%;
+	max-width: 1200px;
+	/* border: 1px solid yellow; */
+	text-align: left;
+	margin-top: 20px;
+}
+
+
+/* ------------- 내용/댓글 전체 ------------- */
+.content-box {
+	/* background: pink; */
+	margin-bottom: 150px;
+}
+.comment-box {
+	/* background: pink; */
+	margin-top: 25px;
+	padding: 0 30px;
+}
+
+
+/* ------------- content 타이틀 ------------- */
+.content-title {
+	/* background: green; */
+	margin-bottom: 40px;
+}
+.content-title > * {
+	/* background: orange; */
+	margin: 0 0 7px 5px;
+	position: relative;
+}
+.content-title > h2 {
+	font-weight: bold;
+}
+.content-info {
+	/* background: purple; */
+	position: absolute;
+	margin-left: 5px;
+	color: #b3b3b3;
+	font-size: 0.95em;
+}
+.content-user {
+	left: 100px;
+}
+.content-view {
+	right: 3%;
+}
+.title-line {
+	width: 100%;
+	border-top: 2px solid #7e8279;
+}
+
+
+/* ------------- content 내용 ------------- */
+.content-text {
+	/* background: green; */
+	padding: 42px 3%;
+	min-height: 300px;
+	overflow-wrap: break-word;
+}
+.text-line {
+	width: 100%;
+	border-top: 1px solid #a6aba12e;
+}
+.content-text img {
+  max-width: 100%;
+  height: auto;
+}
+
+
+/* ------------- content 버튼 ------------- */
+.content-btns {
+	/* background: green; */
+	position: relative;
+	padding-top: 15px;
+}
+.content-btn {
+	padding : 8px 15px 7px;
+	border-radius: 17px;
+	position: absolute;
+	border: none;
+	background: #ebeeea;
+	color: black;
+	font-weight: 600;
+}
+.content-btn:hover {
+	background: #86C69F;
+	color: white;
+}
+.btn.content-btn:active {
+	background: #448860;
+	color: white;
+}
+.content-btn.b1 {
+	left: 15px;
+}
+.content-btn.b2 {
+	right: 90px;
+}
+.content-btn.b3 {
+	right: 15px;
+}
+
+
+/* ------------- content 버튼 ------------- */
+#commentCount {
+	/* background: green; */
+	margin-left: 15px;
+	font-size: 1.5em;
+	font-weight: bold;
+}
+.commentcount-line {
+	width: 100%;
+	border-top: 2px solid #a6aba1;
+	margin-top: 8px;
+}
+
+
+/* ------------- 댓글view ------------- */
+#commentList {
+	/* background: orange; */
+	margin-bottom: 30px;
+}
+.commentsList {
+	/* border: 1px solid gray; */
+	position: relative;
+}
+.thisComment {
+	display: flex;
+}
+.imagePreview {
+	flex-shrink: 0;
+	width: 32px;
+	height: 32px;
+	overflow: hidden;
+	border-radius: 100%;
+	margin-top: 5px;
+}
+.profileImg {
+	width:100%;
+    height:100%;
+    object-fit:cover;
+}
+.comment-btn {
+	flex-shrink: 0;
+	width: 100px;
+	text-align: right;
+	display: flex;
+	justify-content: flex-end;
+	padding: 0 5px 0 0;
+}
+.comment-middle {
+	padding: 3px 10px 0;
+	flex-grow: 1;
+}
+.comment-btn > * {
+	/* background: yellow; */
+	/* border: 1px solid black; */
+	font-size: 0.9em;
+	height: 20px;
+	color: #aeaeae;
+}
+.comment-middle > * {
+	/* background: green; */
+}
+.comment-name {
+	margin-bottom: 10px;
+	font-weight: bold;
+}
+.comment-bottom {
+	margin-top: 10px;
+	color: #aeaeae;
+	font-size: 0.8em;
+	margin-right: 
+}
+.commentReply {
+	margin-left: 5px;
+}
+.isChildComment {
+	position: absolute;
+	width: 15px;
+	height: 15px;
+	/* background: #5bf7f2; */
+	top: 5px;
+	border-left: 1px solid #c8c8c8;
+	border-bottom: 1px solid #c8c8c8;
+}
+#commentList hr {
+	border:0;
+	height:1px;
+	background: #bbb;
+}
+
+
+/* ------------- textarea ------------- */
+textarea {
+	resize: none;
+	/* height: 100px; */
+	padding: 10px;
+	margin: 0 19px 0 10px;
+	flex-grow: 1;
+	border: 2px solid #ebeeea;
+}
+textarea:focus {
+	border: 2px solid #cacec8;
+	outline: none;
+}
+
+
+/* ------------- 댓글 등록버튼 ------------- */
+.commentAdd {
+	background: #ebeeea;
+	color: black;
+	border-radius: 20px;
+	border: none;
+	font-weight: 600;
+	padding: 7px 12px;
+	margin: auto 25px auto 0;
+}
+.commentAdd:hover {
+	background: #86C69F;
+	color: white;
+}
+.btn.commentAdd:active {
+	background: #448860;
+	color: white;
+}
+.commetnAdd-box {
+	/* background: red; */
+	display: flex;
+	align-items: flex-start;
+}
+
+
+/* ------------- 답글 ------------- */
+.replyForm {
+	position: relative;
+}
+.replyForm > div {
+	/* background: red; */
+	display: flex;
+}
+.replyButtons {
+	display: flex;
+	flex-direction: column;
+	margin: auto 25px auto 0;
+}
+.saveReply {
+	padding: 7px 12px;
+	background: #ebeeea;
+	color: black;
+	border-radius: 20px;
+	font-weight: 600;
+	border: none;
+}
+.saveReply:hover {
+	background: #86C69F;
+	color: white;
+}
+.btn.saveReply:active {
+	background: #448860;
+	color: white;
+}
+.cancelReply {
+	color: gray;
+	font-size: 0.9em;
+	padding: 0;
+}
+.isReply {
+	position: absolute;
+	width: 15px;
+	height: 15px;
+	top: calc(1rem + 5px);
+	border-left: 1px solid #c8c8c8;
+	border-bottom: 1px solid #c8c8c8;
+}
+
+
+/* ------------- 수정 ------------- */
+.editForm {
+	position: relative;
+	/* background: blue; */
+}
+.editForm > div {
+	/* background: red; */
+	display: flex;
+}
+.editButtons {
+	display: flex;
+	flex-direction: column;
+	margin: auto 25px; auto 0;
+}
+.saveEdit {
+	padding: 7px 12px;
+	background: #ebeeea;
+	color: black;
+	border-radius: 20px;
+	font-weight: 600;
+	border: none;
+}
+.saveEdit:hover {
+	background: #86C69F;
+	color: white;
+}
+.btn.saveEdit:active {
+	background: #448860;
+	color: white;
+}
+.cancelEdit {
+	color: gray;
+	font-size: 0.9em;
+	padding: 0;
+}

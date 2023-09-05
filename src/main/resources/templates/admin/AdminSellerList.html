@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/admin_layout}">
+<th:block layout:fragment="customStyle">
+	<style th:inline="css" type="text/css">
+	
+	
+		#searchForm{
+			border: 1px solid #ccc;
+			padding: 10px;
+		    margin-bottom: 50px;	
+		    display: flex;	
+		    justify-content: space-between;	
+		}
+		
+		.searchBarWrapper {
+		    padding: 10px 20px;
+		    display: flex;
+		    
+		}
+		
+		.searchBarWrapper select {
+		    margin-right: 5px;
+		    height: 33px;
+		    vertical-align: middle;
+		    width:120px; 
+		}
+		.searchBarWrapper input[type="text"]{
+			width: 700px;
+			height: 34px;
+			padding: 5px;
+		}
+		.searchBarWrapper input[type="submit"] {
+		    padding: 2px 5px;
+		    background-color: #434343;
+		    color: white;
+		    border-radius: 5px;
+		}
+			
+
+		.checkBoxWrapper{
+			align-self: center;
+			margin-right: 10px;
+		    		
+		}		
+		#sellerTable {
+		    width: 100%;
+		}
+		
+		#sellerTable th,
+		#sellerTable td {
+		    text-align: center;
+		}
+
+		#sellerTable td {
+		    height: 45px;
+		}		
+		
+		#sellerTable th {
+		    background-color: #f2f2f2;
+		    padding: 10px;
+		}
+	
+		#sellerTableBody button {
+		    background-color: #434343;
+		    color: white;
+		    border: none;
+		    cursor: pointer;
+		    padding: 3px 7px;
+		    border-radius: 3px;
+		}
+        .btn-sm{
+        	background: #434343;
+ 		    color: white;
+		    border: none;
+		    cursor: pointer;
+		    padding: 5px 10px;
+		    border-radius: 3px;       	
+        }  
+        			
+        #sellerTable, #sellerTable th, #sellerTable td {
+            border: 1px solid #CCCCCC;
+        }
+        
+        
+        
+		.pagination {
+			padding: 0 auto;
+			margin: 20px auto;
+			display: flex;
+			justify-content: center;
+			position: relative;
+	
+		}       
+		.pagination a {
+			width: 30px;
+			height: 30px;
+			align-items: center;
+			justify-content: center;
+			float: left;
+			display: flex;
+			text-decoration: none;
+			color: #7e8279;
+			line-height: 1.5;
+			border-radius: 6px;
+		}
+		.pagination .arrow-l .bi-play-fill{
+			transform: rotate(180deg);
+		}
+		.pagination .num {
+			
+			border: 1.5px solid #ebeeea;
+			margin: 0 3.5px;
+		}
+		.num:hover {
+			border: none;
+			background: #434343;
+			color: white;
+		}
+		.left:hover, .right:hover {
+			color: #434343;
+		}
+		.pagination a:active {
+			cursor: default;
+			color: #448860;
+		}
+		.pagination .active > a {
+			border: none;
+			background: #7e8279;
+			color: white;
+		}		
+		.pagination .disabled > a {
+		    pointer-events: none;
+		    cursor: default;
+	    }  
+             
+	 	.noResult {
+		        text-align: center;
+		        margin-top: 50px;
+		        font-size: 20px;
+		        color: #999;	
+		}
+	</style>
+</th:block>
+<th:block layout:fragment="content">
+<div class="content">
+	
+    <form id="searchForm" th:action="@{/admin/seller/list}" method="get">
+
+        <div class="searchBarWrapper">
+			<select id="searchType" name="searchType" class="form-select pt-1">
+			    <option value="name" th:selected="${searchType == 'name'}">판매자명</option>
+				<option value="brokerName" th:selected="${searchType == 'brokerName'}">부동산명</option>			    
+			    <option value="email" th:selected="${searchType == 'email'}">이메일</option>
+			</select>
+            <input type="text" id="searchKeyword" name="searchKeyword" th:value="${searchKeyword}" placeholder="검색어를 입력해주세요" class="form-control me-1"/>
+			<input type="submit" value="검색"/>
+		</div>
+		
+		<div class="checkBoxWrapper" style="display: flex;">
+		    <select id="memberType" name="memberType" class="form-select" style="width: 120px;">
+		        <option value="" th:selected="${memberType == null}">회원 전체</option>
+		        <option value="사업자" th:selected="${memberType == '사업자'}">사업자</option>
+		        <option value="개인" th:selected="${memberType == '개인'}">개인</option>
+		    </select>
+		
+		    <select id="admission" name="admission" class="form-select" style="width: 120px; ">
+		        <option value="" th:selected="${admission == null}">승인 여부</option>
+		        <option value="미승인" th:selected="${admission == '미승인'}">미승인</option>
+		        <option value="승인" th:selected="${admission == '승인'}">승인</option>
+		    </select>
+		</div>  
+    </form>
+
+
+
+   	 <div class="tableWrapper">
+   	 
+	     <table id="sellerTable">
+	        <thead>
+	             <tr> 	
+			         <th style="width: 7%;">회원 타입</th>		         
+			         <th style="width: 20%;">이메일</th>
+			         <th style="width: 15%;"> 판매자명</th>		
+	                 <th style="width: 15%;"> 부동산명</th>			         	                     
+	                 <th style="width: 7%;">승인여부</th>
+	                 <th style="width: 8%;">사업자파일</th>                 
+	                 <th style="width: 10%;">전화번호</th>                 
+	                 <th style="width: 5%;">상태</th>
+	                 <th style="width: 8%;">등록일</th>
+	                 <th style="width: 5%;"></th>
+	                 
+	             </tr>
+	        </thead>
+			<tbody id="sellerTableBody">
+			    <tr th:each="seller : ${sellerList}">
+					<td>
+					    <span th:if="${seller.isBiz}" th:text="'사업자'"></span>
+					    <span th:unless="${seller.isBiz}" th:text="'개인'"></span>
+					</td>	        
+					<td th:text="${seller.email}"></td>
+					<td th:text="${seller.name}"></td>
+					<td th:text="${seller.isBiz ? seller.brokerName : '-'}"></td>
+					<td th:text="${seller.isBiz ? (seller.admission ? '승인' : '미승인') : '-'}"></td>		        
+					<td>
+					    <a th:if="${seller.bizFile != null}" th:href="@{/download/seller/bizfile(sellerId=${seller.sellerId})}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-primary">다운로드</a>
+					</td>
+					<td th:text="${seller.tel1 + ' - ' + seller.tel2 + '-' + seller.tel3}"></td>
+			        <td th:text="${seller.status}"></td>			        
+			        <td th:text="${#temporals.format(seller.createDate, 'yyyy-MM-dd')}" id="sellerCreateDate"></td>
+					<td>
+					    <span th:if="${seller.isBiz}">
+							<button th:if="${!seller.admission}" th:id="'approveButton' + ${seller.sellerId}">승인</button>
+					    </span>
+					</td>			        
+			    </tr>
+			    
+			    
+			</tbody>
+	         
+	     </table>
+     </div>
+	 <th:block th:if="${sellerList.empty}">
+	        <p class="noResult">검색결과가 없습니다.</p>
+	 </th:block>	      
+     
+	<div class="pagination" th:if="${!sellerList.empty}">
+	    <ul class="pagination pagination-modal">
+	        <li th:if="${sellerList.number > 0}" th:class="${sellerList.number > 0 ? '' : 'disabled'}">
+	            <a th:href="@{/admin/seller/list(page=0, searchType=${searchType}, searchKeyword=${searchKeyword})}" class="arrow-lf left"><i class="bi bi-rewind-fill"></i></a>
+	        </li>
+	        <li th:if="${sellerList.number > 0}" th:class="${sellerList.number > 0 ? '' : 'disabled'}">
+	            <a th:href="@{/admin/seller/list(page=${sellerList.number - 1}, searchType=${searchType}, searchKeyword=${searchKeyword})}" class="arrow arrow-l left"><i class="bi bi-play-fill"></i></a>
+	        </li>
+	        <li th:each="pageNumber : ${#numbers.sequence(0, sellerList.totalPages - 1)}" th:class="${pageNumber == sellerList.number ? 'active' : ''}">
+	            <a th:href="@{/admin/seller/list(page=${pageNumber}, searchType=${searchType}, searchKeyword=${searchKeyword})}" th:text="${pageNumber + 1}" class="num"></a>
+	        </li>
+	        <li th:if="${sellerList.number < sellerList.totalPages - 1}" th:class="${sellerList.number < sellerList.totalPages - 1 ? '' : 'disabled'}">
+	            <a th:href="@{/admin/seller/list(page=${sellerList.number + 1}, searchType=${searchType}, searchKeyword=${searchKeyword})}" class="arrow arrow-r right"><i class="bi bi-play-fill"></i></a>
+	        </li>
+	        <li th:if="${sellerList.number < sellerList.totalPages - 1}"  th:class="${sellerList.number < sellerList.totalPages - 1 ? '' : 'disabled'}">
+	            <a th:href="@{/admin/seller/list(page=${sellerList.totalPages - 1}, searchType=${searchType}, searchKeyword=${searchKeyword})}" class="arrow-rf right"><i class="bi bi-fast-forward-fill"></i></a>
+	        </li>
+	    </ul>
+	</div>         
+</div>
+	
+</th:block>
+<th:block layout:fragment="customScript">
+	<script th:inline="javascript" type="text/javascript">
+	
+    //// select 요소들에 대한 변경 이벤트 리스너를 추가	
+    function addEventListenersForSelectBoxes() {
+    	
+    	// 웹 페이지에서 모든 select 요소들을 선택
+        const selectBoxes = document.querySelectorAll('select');
+
+        selectBoxes.forEach((selectBox) => {
+            selectBox.addEventListener('change', () => {
+            	
+                document.getElementById('searchForm').submit();
+            });
+        });
+    }
+
+ // 웹 페이지가 로드되면, addEventListenersForSelectBoxes 함수를 호출하여 이벤트 리스너를 등록
+    document.addEventListener('DOMContentLoaded', () => {
+        addEventListenersForSelectBoxes();
+    });
+
+	
+	function addClickEventListenersForApproveButtons() {
+		
+	    // 웹 페이지에서 ID가 approveButton으로 시작하는 모든 요소들을 선택		
+	    const approveButtons = document.querySelectorAll('[id^="approveButton"]');
+
+	    approveButtons.forEach((approveButton) => {
+	    	// 각 버튼의 ID에서 approveButton을 제거하여 판매자 ID를 추출	    	
+	        const sellerId = approveButton.id.replace('approveButton', '');
+	        approveButton.addEventListener('click', () => {
+	            confirmApproval(sellerId);
+	        });
+	    });
+	}
+
+	document.addEventListener('DOMContentLoaded', () => {
+	    addClickEventListenersForApproveButtons();
+	});	
+	
+	// 판매자 승인 여부를 확인	
+    function confirmApproval(sellerId) {
+		
+        const isConfirmed = confirm("판매자를 승인하시겠습니까?");
+     // 사용자가 확인을 선택한 경우
+        if (isConfirmed) {
+        	// 판매자 ID를 requestBody에 담아
+            const requestBody = {
+                sellerId: sellerId 
+            };
+
+            fetch('/admin/seller/approve', {
+                method: 'POST',
+                body: JSON.stringify(requestBody),  // requestBody 객체를 JSON 형태로 변환하여 요청의 본문에 담음
+                headers: {
+                    'Content-Type': 'application/json', // 요청 헤더에 'Content-Type: application/json'을 설정하여 JSON 데이터를 전달
+                },
+            })
+            .then((response) => {
+            	// 응답이 성공적으로 처리된 경우
+                if (response.ok) {
+                	// 승인 성공 메시지 띄우고 페이지 새로고침
+                	alert("승인되었습니다");
+                    location.reload();
+                } else {
+                    return response.text();
+                }
+            })
+            .then((errorMessage) => {
+                if (errorMessage) {
+                    alert(`승인 요청 중 오류: ${errorMessage}`);
+                }
+            })
+            .catch((error) => {
+            	 alert(`승인 요청 중 오류: ${errorMessage}`);
+            });
+        }
+	}	
+    
+	</script>
+</th:block>

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<th:block layout:fragment="customStyle">
+<style th:inline="css" type="text/css">
+	
+	body{
+		overflow-x: hidden;
+	}
+	
+	input:focus {
+		outline: none !important;
+	}
+	
+	input::placeholder {
+		color: #cacec8;
+	}
+	
+	.main-index-wrapper {
+		margin-top: -40px;
+	}
+	
+	.main-index-wrapper .banner {
+		position: absolute;
+		left:0;
+		height: 350px;
+	}
+	
+	.main-index-wrapper .banner-image-wrapper {
+		z-index: 200;
+		height: 100%;
+		width: 100vw;
+		margin: 0;
+		padding: 0;
+	}
+	
+	.main-index-wrapper .banner-search-background {
+		z-index: 100;
+		position: absolute;
+		height: 100%;
+		width: 100vw;
+		margin: 0;
+		padding: 0;
+	}
+	
+	.main-index-wrapper .banner-image-wrapper img{
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+	
+	.main-index-wrapper .content-wrapper {
+		margin-bottom: 80px;
+		padding-top: 300px;
+		padding: 300px 160px 0 160px;
+		
+	}
+	
+	.main-index-wrapper .banner-text-wrapper {
+		margin-bottom: 20px;
+		color: #43604E;
+	}
+	
+	.main-index-wrapper .banner-text-wrapper > div {
+		margin-bottom: 0.5rem;
+		font-weight: bold;
+		color: #43604EB3;
+	}
+	
+	.main-index-wrapper .banner-text-wrapper > h3 {
+		font-weight: bold;
+	}
+	
+	.main-index-wrapper .banner-search-wrapper {
+		z-index: 300;
+		transform: translateX(-50%);
+	    position: absolute;
+	    top: 95px;
+	    left: 50%;
+	}
+	
+	.main-index-wrapper .banner-search-wrapper .search-form {
+		position: relative;
+		padding-right: 30px;
+	}
+		
+	
+	.main-index-wrapper .search-form input.search-input {
+		position: relative;
+		border: 3px solid #76BB91;
+		border-radius: 10px;
+		width: 550px;
+		height: 45px;
+		padding-left: 13px;
+		z-index: 200;
+	}
+	
+	.main-index-wrapper .search-form button.search-button {
+		width: 50px;
+		height: 45px;
+		margin: -10px;
+		padding: 0;
+		padding-left: 5px;
+		border: 3px solid #76BB91;
+		border-radius: 0 10px 10px 0;
+		position: absolute;
+		right: 0;
+		top: 10px;
+		z-index: 100;
+		background-color: #76BB91;
+	}
+	
+	.main-index-wrapper .search-form button.search-button > .bi {
+		color: white;
+		font-size: 22px;
+		text-align: center;
+	}
+	
+	
+	
+	.main-index-wrapper .content-wrapper .content {
+		margin-top: 120px;
+	}
+	
+	.main-index-wrapper .recommend-room-preview {
+		padding: 20px 0;
+	}
+	
+	.recommend-room > * {
+		font-weight: bold;
+	}
+	
+	.recommend-room-preview .recommand-title {
+	    display: flex;
+	    align-items: baseline;
+	    flex-direction: row;
+	    flex-wrap: nowrap;
+	    justify-content: space-between;
+	    margin-bottom: 10px;
+	}
+	
+	.recommend-room-preview span.room-type {
+		color: #43604E;
+		font-size: 22px;
+		font-weight: bold;
+	}
+	
+	.recommend-room-preview a.room-more {
+		color: gray;
+		text-decoration: none;
+	}
+	
+	.recommend-room-list {
+	    display: flex;
+	    flex-direction: row;
+	    flex-wrap: nowrap;
+	    justify-content: space-between;
+	    align-items: flex-start;
+	    gap: 40px;
+	}
+	
+	.recommend-room-item {
+		cursor: pointer;
+		width: 100%;
+	}
+	
+	.recommend-room-item .room-image {
+		width: 100%;
+	}
+	
+	.recommend-room-item .room-image > img {
+		width: 100%;
+		height: 150px;
+		object-fit: cover;
+	}
+	.recommend-room-item .room-info {
+		position: relative;
+	}
+	.room-info .room-info-price {
+		float: left;
+		font-size: 20px;
+		font-weight: bold;
+	}
+	
+	.room-info .room-info-other {
+		text-align: right;
+		position: absolute;
+		right: 0;
+		line-height: 1.2em;
+		padding-top: 5px;
+	}
+	.room-info-other-address {
+		color: gray;
+		font-size: 14px;
+	}
+</style>
+
+</th:block>
+<th:block layout:fragment="content">
+	
+	<div class="main-index-wrapper">
+		<div class="banner">
+			<div class="banner-search-wrapper"> 
+				<div class="banner-text-wrapper">
+					<div style="display: flex;">
+						<span style="margin-right: 12px;">#1인가구</span><span>#홀로서기</span>
+					</div>
+					<h3 style="margin-bottom: 5px;">가고 싶은 집, 나만을 위한 공간</h3>
+					<h3>지브로에서 쉽고 간편하게 찾아보세요</h3>
+				</div>
+				<form th:action="@{/room/search}" class="search-form">
+					<button type="submit" class="search-button"><i class="bi bi-search"></i></button>
+					<input type="text" class="search-input" name="searchWord" placeholder="지역, 지하철역 검색"/>
+				</form>
+			</div>
+			<div class="banner-search-background"></div>
+			<div class="banner-image-wrapper">
+				<img th:src="@{/roominfoimg/ZBRO-main.jpg}" alt="" />
+			</div>
+		</div>
+		<div class="content-wrapper">
+			<div class="content">
+				<div class="recommend-room">
+					<h2>추천매물</h2>
+					<hr style="border: 1px solid gray" />
+					<div class="recommend-room-preview">
+						<div class="recommand-title">
+							<span class="room-type">원룸 / 오피스텔</span>
+							<a th:href="@{/room/search}" class="room-more">더보기</a>
+						</div>
+						<div class="recommend-room-list recommend-room-other"></div>
+					</div>
+					<div class="recommend-room-preview mt-4">
+						<div class="recommand-title">
+							<span class="room-type">고시원</span>
+							<a th:href="@{/room/search?type=고시원}" class="room-more">더보기</a>
+						</div>
+						<div class="recommend-room-list recommend-room-gositel"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</th:block>
+<th:block layout:fragment="customScript">
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8797ef24169da67f855167ed9d5ded62&libraries=services"></script>
+	<script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+	<script th:inline="javascript" type="text/javascript">
+		
+		$(document).ready(function () {
+			
+			var geocoder = new kakao.maps.services.Geocoder();
+			
+			if (navigator.geolocation) {
+		    
+			    // GeoLocation을 이용해서 접속 위치를 얻어옵니다
+			    navigator.geolocation.getCurrentPosition( function(position) {
+			        let lat = position.coords.latitude; // 위도
+			        let lng = position.coords.longitude; // 경도
+			        
+			        centerPosition = new kakao.maps.LatLng(lat, lng);
+			        geocoder.coord2Address(lng, lat, function(result, status) {
+						if (status === kakao.maps.services.Status.OK) {
+							if(result.length > 0) {
+								let findedAddress = result[0].address;
+								
+								console.log(findedAddress.address_name, findedAddress.region_1depth_name, findedAddress.region_2depth_name, findedAddress.region_3depth_name);
+								
+								getRoomList("고시원", findedAddress);
+								getRoomList("원룸/오피스텔", findedAddress);
+								
+							}
+						}
+					});
+			    }, noGeoLocation);
+			} else {
+				noGeoLocation();
+			}
+		});
+		
+		
+		//viewType:고시원, 원룸/오피스텔
+		function getRoomList(viewType, findedAddress) {
+			$.ajax({
+				url:"/index/room",
+				method:"post",
+				data: {
+					"viewType":viewType,
+					"regionFirstDepth" : findedAddress.region_1depth_name,
+					"regionSecondDepth" : findedAddress.region_2depth_name,
+					"regionThirdDepth" : findedAddress.region_3depth_name
+				},
+				success: function(res) {
+					//성공시 html 그리기
+					console.log(res, res.resultRoomList[0]);
+					let template = Handlebars.compile($("#recommend-room-item-template").html());
+					let templateNull = Handlebars.compile($("#recommend-room-item-null-template").html());
+					
+					for(let i=0; i<4; i++) {
+						let item = template(res.resultRoomList[i]);
+						if(res.resultRoomList[i] === undefined) {
+							item = templateNull();
+						}
+						
+						if(viewType === "고시원") {
+							$(".recommend-room-gositel").append(item);
+						} else if(viewType === "원룸/오피스텔") {
+							$(".recommend-room-other").append(item);
+						}
+					}
+					
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});
+		}
+		Handlebars.registerHelper('addressCut', function(astring) {
+			if(astring != null){
+				return astring.split(" ")[0]+" "+astring.split(" ")[1];
+			}
+		});
+		Handlebars.registerHelper('roomInfoPrice', function(costType, deposit, mounthCost){
+			if(costType === "월세") {
+				if(deposit == 0) {
+					return costType+" "+mounthCost;
+				}
+				return costType+" "+deposit+"/"+mounthCost;
+			} else if(costType === "전세") {
+				return costType+" "+deposit;
+			}
+		});
+		
+		function noGeoLocation() {
+			let findedAddress = {
+					"region_1depth_name" : "",
+					"region_2depth_name" : "",
+					"region_3depth_name" : "",
+				}
+				getRoomList("고시원", findedAddress);
+				getRoomList("원룸/오피스텔", findedAddress);
+		}
+	
+	</script>
+	
+	<script id="recommend-room-item-template" type="text/x-handlebars-template">
+		<div class="recommend-room-item" onclick="location.href='/room/detail/{{roomId}}'">
+			<div class="room-image">
+				<img src="/room/photo?roomId={{roomId}}" alt=""/>
+			</div>
+			<div class="room-info">
+				<span class="room-info-price">{{roomInfoPrice costType deposit monthCost}}</span>
+				<div class="room-info-other">
+					<span>{{type}}</span> <br />
+					<span class="room-info-other-address">{{addressCut address}}</span>
+				</div>
+			</div>
+		</div>
+	</script>
+	<script id="recommend-room-item-null-template" type="text/x-handlebars-template">
+		<div class="recommend-room-item">
+			<div class="room-image">
+			</div>
+			<div class="room-info">
+				<span class="room-info-price"></span>
+				<div class="room-info-other">
+					<span></span> <br />
+					<span class="room-info-other-address"></span>
+				</div>
+			</div>
+		</div>
+	</script>
+	
+</th:block>
+
+    
+    

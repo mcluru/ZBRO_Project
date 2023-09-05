@@ -1,0 +1,149 @@
+.search-main-wrapper {
+	user-select: none;
+	width: 95vw;
+	min-width: 1000px;
+	margin: 10px auto 0;
+	padding-top: 10px;
+}
+
+.search-wrapper {
+	margin-bottom: 12px;
+}
+
+.search-result-wrapper {
+	height: calc(100vh - 205px);
+	display: flex;
+}
+
+input.search-input::placeholder{
+	color:#999;
+}
+.form-control:focus, .form-control:active, .form-select:focus, .form-select:active {
+    outline: none !important;
+    border: var(--bs-border-width) solid var(--bs-border-color) !important;
+    border-color: none;
+    box-shadow: none !important;
+}
+button.submit-btn {
+	background-color: #76BB91;
+    color: white;
+}
+button.submit-btn:hover {
+    background-color: rgb(82, 163, 113) !important;
+    color: white;
+}
+button.search-word-reset-button {
+	border: 0;
+	padding: 0;
+	margin: 0;
+	background-color: unset;
+	position: absolute;
+	right: 12px;
+	top: calc(50% - 14px);
+	color: darkgray;
+	font-size: 1.2rem;
+}
+
+.room-list {
+	width: 400px;
+	/*border: 1px solid blue;*/
+	border: 1px solid lightgray;
+	overflow-y: scroll;
+}
+
+.map-wrapper {
+	height: 100%;
+	width: calc(100% - 330px);
+	/*border: 1px solid red;*/
+	border: 1px solid lightgray;
+}
+
+.room-item {
+	height: 155px;
+	/*border: 1px solid green;*/
+	border: 1px solid lightgray;
+	margin: 0px;
+	padding: 5px;
+}
+.room-item-wrapper{
+	height:100%;
+    overflow-y: hidden;
+}
+
+
+.room-photo-wrapper {
+	margin: 2px 6px 2px 2px;
+	height: 100%;
+	float: left;
+	position:relative;
+}
+
+.image-wrapper {
+	position: absolute;
+	z-index: 1; 
+	height: 100%;
+	width: 138px;
+	background-image: linear-gradient(to bottom, white -5%, transparent 50%);
+}
+
+.room-image {
+	height: 100%;
+	width: 138px;
+	object-fit: cover;
+}
+
+.room-info-wrapper:hover {
+	cursor: pointer;
+}
+
+.room-info-wrapper p {
+	margin: unset;
+}
+
+p.room-cost {
+	font-size: 1.28rem;
+	font-weight: bold;
+	padding-bottom: 3px;
+    padding-top: 5px;
+}
+
+.room-item-other {
+	color: gray;
+	padding-bottom: 18px;
+	font-size: 14px;
+}
+.room-item-address {
+	color: gray;
+	padding-bottom: 4px;
+	font-size: 13px;
+}
+
+.room-item-intro {
+	text-align: left;
+	line-height: 115%;
+	max-width: 100%;
+    max-height: 70px;
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 15px;
+}
+
+
+.favorite-button {
+	position: absolute;
+	z-index: 100; 
+	right: 0;
+	top: 2px;	
+}
+.favorite-button > button {
+	border: unset;
+	background: unset;
+	margin: 0;
+	border: 0;
+} 
+
+.favorite-button  i{
+	color: #dc3545;
+	font-size: 1.5rem;
+}

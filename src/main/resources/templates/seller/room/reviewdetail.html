@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/seller_layout}">
+<th:block layout:fragment="customStyle">
+	<style th:inline="css" type="text/css">
+	
+	
+	.main-content-wrapper {
+    width: 100%;
+    min-width: 1000px;
+    padding: 0;
+}
+	  .reviewWrapTitle {
+        text-align: center;
+        font-size: 30px;
+        font-weight: 550;
+        margin: 100px 0;
+    }
+   
+     table.reviewTable {
+        width: 100%;
+
+     }
+     
+     
+    table.reviewTable td {
+        max-width: 300px; 
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        border-bottom: 1px dotted #E3E3E3;
+
+    }     
+          
+    .room-image{
+      width: 100px;
+      height: 80px;
+      margin-top: 10px
+   
+   } 
+   
+    
+   .bi-star-fill {
+       color: #86C69F;
+       margin-right: 1px;
+      
+   } 
+
+    
+    /*추가된 스타일  */
+   .recontent-wrapper {
+   	border:1px solid lightgray; 
+   	height:500px;
+   } 
+    
+   .reviewContentTitle {
+   	text-align:center; 
+   	font-size: 30px;
+   	font-weight: bold;
+   	margin-top:100px;
+   	margin-bottom:50px;
+   }        
+   
+   .backbtn {
+   	background-color:white;
+	color:#A6D795;
+	 border: 2px solid #A6D795;
+	 width:100px;
+	 margin-bottom: 15px;
+   }
+   
+   .backbtn:hover {
+    background-color: #86C69F; 
+    color: white; 
+    border: 2px solid #86C69F;
+}
+	
+	</style>
+</th:block>
+<th:block layout:fragment="content">
+<div class="content">
+
+	<div class="reviewWrapTitle">리뷰 상세보기</div>
+	<div class="reviewWrap">
+    <input class="backbtn" type="button" value="뒤로가기" onclick="history.back();" />
+     <!-- <a th:href="@{/room/detail/(roomId=${review.room.roomId})}" class="btn">매물상세페이지</a> -->
+    <div class="reviewTableWrap">
+        <table class="reviewTable" style="border:1px solid lightgray;">
+            <thead style="text-align:center;">
+                <tr style="border:1px solid lightgray;">
+                    <th>매물사진</th>
+                    <th>건물명</th>
+                    <th>작성자</th>
+                    <th>평점</th>
+                    <th>작성일</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="review : ${reviews}" style="cursor: pointer; text-align: center;">
+                    <td>
+                        <div class="test">
+                            <img th:src="@{/room/photo(roomId=${review.room.roomId})}" class="room-image" style="margin:10px;" />
+                        </div>
+                    </td>
+                    <td>
+                        <div th:text="${review.room.buildingName}" class="buildName"></div>
+                    </td>
+                    <td>
+                        <span th:text="${review.user.name}"></span>
+                    </td>
+                    <td>
+                        <span th:each="star : ${#numbers.sequence(1, review.score)}" class="bi bi-star-fill"></span>
+                    </td>
+                    <td th:text="${#temporals.format(review.createDate, 'yyyy-MM-dd')}" style="text-align: center;"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="recontent-wrapper">
+    <div class="reviewContentTitle" style="text-align:center; font-size: 30px;">후기내용</div>
+    
+        <div th:text="${review.content}" class=""th:each="review : ${reviews}" style="text-align:center; font-size: 20px;"></div>
+	</div>
+	</div>
+</div>
+</th:block>
+<th:block layout:fragment="customScript">
+	<script th:inline="javascript" type="text/javascript">
+		//커스텀 스크립트
+	</script>
+</th:block>

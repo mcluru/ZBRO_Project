@@ -1,0 +1,306 @@
+body {
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
+}
+.main-wrapper {
+	padding-top: 50px;
+	padding-bottom: 50px;
+	/* background: blue; */
+	text-align: center; /* 전체글자 중앙정렬 */
+	display: flex;
+	flex-direction: column;
+	width:90%;
+	min-width: 900px;
+}
+
+
+/* ------------- 크게 나눈 블럭 ------------- */
+.postListBlock {
+	/* background: red; */
+	margin: 0 auto 10px;
+}
+
+
+/* ------------- 상단 타입 ------------- */
+#typeTitle {
+	margin: 0;
+	padding: 0;
+}
+#typeTitle > span{
+	font-size: 4em;
+	color: #D0D0D0;
+	position: relative;
+	top: 30px;
+}
+#typeTitle > h1 {
+	letter-spacing :-0.05em;
+	font-weight: 600;
+	position: relative;
+	bottom: 30px;
+}
+
+
+/* ------------- 상단 카테고리 ------------- */
+#category {
+	padding: 0;
+	margin: 0 0 30px;
+	width: 180px;
+	display: flex;
+	justify-content: space-between;
+}
+#category > li {
+	list-style: none;
+}
+#category > li > a {
+	text-decoration: none;
+	color: #B9B9B9;
+}
+#category > li > a:hover {
+	color: #86C69F;
+}
+#category > li > a.black-underline {
+	font-weight: 700;
+	color: #7e8279;
+	text-decoration: underline;
+	text-decoration-thickness : 2px;
+	text-underline-offset: 9px;
+}
+
+
+/* ------------- 중앙 메인내용 ------------- */
+#postList-main {
+	width: 90%;
+	max-width: 1200px;
+}
+
+
+/* ------------- 중앙 메인 상단 ------------- */
+#postListSearch {
+	display: flex;
+	letter-spacing :-0.05em;
+	position: relative;
+	/* background: blue; */
+}
+#postListSearch > h4 {
+	font-size: 1.5em;
+	margin-bottom: 0;
+	color: #636363;
+	font-weight: 600;
+}
+#postListSearch > div {
+	position: absolute;
+	right: 0;
+}
+
+
+/* ------------- 선택박스 ------------- */
+.selectbox {
+	width: 80px;
+	height: 30px;
+    position: relative;
+    border: 2px solid #dfe4da;
+    z-index: 1;
+    background: white;
+    color: #97a888;
+}
+.selectbox:hover {
+	color: #86C69F;
+}
+.selectbox:before { /* 가상 선택자를 활용 화살표 대체 */
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    width: 0;
+    height: 0;
+    margin-top: -1px;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #97a888;
+}
+.selectbox label {
+    position: absolute;
+    left: 3px;
+    padding: 0.5px .2em;  /* select의 여백 크기 만큼 */
+    z-index: -1;  /* IE8에서 label이 위치한 곳이 클릭되지 않는 것 해결 */
+}
+.selectbox select {
+    width: 100%;
+    padding-top: .1em;  /* 여백과 높이 결정 */
+    padding-left: 3px;
+    opacity: 0;  /* 숨기기 */
+    filter:alpha(opacity=0);  /* IE8 숨기기 */
+    -webkit-appearance: none; /* 네이티브 외형 감추기 */
+    -moz-appearance: none;
+    appearance: none;
+}
+.selectbox.second select {
+    padding-bottom: 0;
+}
+
+
+/* ------------- 검색 ------------- */
+#postForm {
+	display: flex;
+	align-items: center;
+}
+.searchbox {
+	width: 220px;
+	height: 32px;
+	border: none;
+	background: #ebeeea;
+	border-radius: 15px;
+	padding: 0 35px 1px 12px;
+	margin-left: 15px;
+}
+.searchbox:focus {
+	outline: none;
+}
+#searchBtn {
+	background: none;
+	border: none;
+	position: absolute;
+	right: 6px;
+	top: 2px;
+}
+
+
+/* ------------- 테이블 ------------- */
+.tableDiv {
+	margin-top: 15px;
+	font-weight: bold;
+}
+.postTable {
+	width: 100%;
+	/* background: green; */
+	border-top: 2px solid #7e8279;
+	border-collapse: collapse;
+}
+.postTable > thead {
+	border-bottom: 1px solid #7e8279;
+}
+tr {
+	position: relative;
+	height: 40px;
+}
+thead > tr {
+	font-size: 1.1em;
+}
+tbody > tr {
+	font-size: 0.95em;
+}
+.postTable > tbody > tr::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 100%;
+  border-bottom: 1px dotted #c2ccb9;
+}
+.postNo {
+	font-size: 90%;
+	color: #999999;
+}
+.postTitle {
+	font-size: 95%;
+	text-align: left;
+	padding-left: 20px;
+}
+td > a {
+	text-decoration: none;
+	color: inherit;
+}
+.postgray {
+	font-size: 95%;
+	color: #c3c3c3;
+	font-weight: 500;
+}
+.nonePost {
+	color: #c3c3c3;
+	font-weight: 500;
+}
+
+
+/* ------------- 페이징 ------------- */
+.pagingblock {
+	/* background: blue; */
+	position: relative;
+	margin-top: 10px;
+}
+.pagingblock > * {
+	/* background: orange; */
+	padding: 0;
+	margin: 0;
+}
+.pagination {
+	padding: 0 auto;
+	margin: 0 auto;
+	display: flex;
+	justify-content: center;
+	position: relative;
+	bottom: 10px;
+}
+.pagination a {
+	width: 30px;
+	height: 30px;
+	align-items: center;
+	justify-content: center;
+	float: left;
+	display: flex;
+	text-decoration: none;
+	/* background: blue; */
+	/* color: #86C69F; */
+	color: #7e8279;
+	line-height: 1.5;
+	border-radius: 6px;
+}
+.pagination .arrow-l .bi-play-fill{
+	transform: rotate(180deg);
+}
+.pagination .num {
+	/* border: 1.5px solid #dbefcf; */
+	border: 1.5px solid #ebeeea;
+	margin: 0 3.5px;
+}
+.num:hover {
+	border: none;
+	background: #86C69F;
+	color: white;
+}
+.left:hover, .right:hover {
+	color: #86C69F;
+}
+.pagination a:active {
+	cursor: default;
+	color: #448860;
+}
+.pagination .active > a {
+	border: none;
+	background: #7e8279;
+	color: white;
+}
+
+
+/* ------------- 글쓰기 ------------- */
+.post-write {
+	padding : 8px 30px 7px;
+	font-weight: 600;
+	border-radius: 20px;
+	position: absolute;
+	right: 15px;
+	top: 0px;
+	border: none;
+	/* background: #ACDA93; */
+	background: #ebeeea;
+	color: black;
+}
+.post-write:hover {
+	background: #86C69F;
+	color: white;
+}
+.btn.post-write:active {
+	background: #448860;
+	color: white;
+}

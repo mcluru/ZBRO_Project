@@ -1,0 +1,292 @@
+.main-content .content {
+	padding: 0 0 30px 0;
+}
+.content {
+	font-family: 'Noto Sans KR', sans-serif;
+}
+
+/* ------------- input ------------- */
+input {
+	border: 2px solid #ebebeb;
+	margin: 0;
+	padding: 0 7px;
+}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+}
+input[type="number"], input[type="text"] {
+	height: 35px;
+}
+input:focus {
+	outline: none !important;
+	border-color: #cacec8;
+}
+input::placeholder {
+	color: #cacec8;
+}
+
+/* ------------- textarea ------------- */
+textarea {
+	resize: none;
+	padding: 7px;
+	/* flex-grow: 1; */
+	border: 2px solid #ebeeea;
+}
+textarea:focus {
+	border: 2px solid #cacec8;
+	outline: none;
+}
+textarea::placeholder {
+	color: #cacec8;
+}
+
+/* ------------- 공백 ------------- */
+.blank {
+	margin-right: 25px;
+}
+.blank-box {
+	width:100%;
+	margin-bottom: 50px;
+	min-height: 0px;
+	border: none;
+	border-top: 1px solid #d9d9d9;
+}
+.short-input {
+	width: 125px;
+}
+.middle-input {
+	width:53%;
+}
+.long-input {
+	width:100%;
+}
+.text-left {
+	padding-left: 10px;
+}
+
+
+/* ------------- title ------------- */
+.content > h1 {
+	/* background: blue; */
+	padding: 15px;
+}
+
+
+/* ------------- 내용 전체 ------------- */
+#roomInsert {
+	/* background: blue; */
+	width: 90%;
+	min-width: 930px;
+	margin: 50px auto 10px;
+}
+.info-blocks {
+	/* background: red; */
+	margin-bottom: 50px;
+}
+.info-blocks .detail-blocks {
+	min-height: 40px;
+	/* background: green; */
+	/* border: 1px solid black; */
+	display: flex;
+	align-items: center;
+	margin-bottom: 13px;
+}
+.left-div {
+	/* background: #CCF5FF; */
+	display: inline-block;
+	/* width: 200px; */
+	width: 10%;
+	min-width: 120px;
+	text-align: right;
+	font-size: 1.1em;
+	font-weight: bold;
+	margin-right: 60px;
+}
+.middle-div {
+	/* background: #FFCFDE; */
+	font-size: 1.04em;
+	width: 72%;
+	min-width: 700px;
+}
+
+
+/* ------------- 가격 ------------- */
+.middle-div.monthlyCost {
+	display: flex;
+}
+.middle-div.monthlyCost > div {
+	/* min-width: 151px; */
+	margin-right: 10%;
+}
+.middle-div.monthlyCost input[type="number"] {
+	width: 80px;
+}
+#monthlyCost {
+	display: inline-block;
+}
+
+
+/* ------------- 주소 ------------- */
+.detail-blocks.address-input {
+	margin-bottom: 0;
+}
+.address-search:hover, .bi-search:hover {
+	cursor: pointer;
+}
+.bi-search {
+	position: relative;
+	right: 30px;
+}
+
+
+/* ------------- 이미지 ------------- */
+.file_list {
+	display: flex;
+	margin-bottom: 12px;
+}
+.myFile {
+	position: relative;
+	/* background: orange; */
+	margin-right: 25px;
+}
+.imagePreview {
+	flex-shrink: 0;
+	width: 110px;
+	height: 110px;
+	overflow: hidden;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: #dedede;
+}
+.imagePreview:hover {
+	cursor: pointer;
+}
+.plus-icon {
+	font-size: 1.7em;
+	color: white;
+}
+.btns.fn_add_btn {
+	border: none;
+	background: #434343;
+}
+.roomImg {
+	width:100%;
+    height:100%;
+    object-fit:cover;
+}
+.main-img {
+	background: #bbbbbb;
+	position: absolute;
+	writing-mode: vertical-rl;
+  	white-space: nowrap;
+  	padding: 5px 1px;
+  	font-size: 0.9em;
+  	font-weight: 600;
+  	left: -25px;
+  	top: 0;
+  	border-radius: 10px 0 0 10px;
+}
+
+/* ------------- 이미지 삭제 ------------- */
+.btns.del_btn {
+	position: absolute;
+	right: 0;
+	top: 0;
+	display: none;
+	width: 28px;
+	height: 27px;
+	background: #ff0000ab;
+	border: none;
+}
+.btns.del_btn:hover {
+	background: #ff0000;
+}
+.cancle-icon, .minus-icon {
+	font-weight: bold;
+}
+.cancle-icon {
+	position: absolute;
+	width: 20px;
+	right: 0;
+	top: 1px;
+}
+.cancle-icon:hover {
+	cursor: pointer;
+}
+
+/* ------------- 이미지 삭제 ------------- */
+.detail-blocks.floor input {
+	width: 52px;
+}
+.detail-blocks.floor > span {
+	/* margin: auto 5px; */
+}
+
+/* ------------- 옵션선택 ------------- */
+.detail-blocks.option-select {
+	display: flex;
+	align-items: flex-start;
+	padding-left: 10px;
+}
+.option-selects {
+	height: 30px;
+}
+.option-selects > span {
+	display: inline-block;
+	width: 110px;
+}
+
+
+
+/* ------------- 하단 버튼 ------------- */
+.btn-dark {
+	color: black;
+	background: none;
+}
+.btn-danger {
+	color: red;
+	background: none;
+}
+.btn.btn-danger.del-btn:hover {
+	color: white;
+	border: 1px solid #ffffff00;
+}
+.bottom-btns {
+	/* background: green; */
+	display: flex;
+	padding: 0 30px;
+	height: 38px;
+	position: relative;
+}
+.left-btn {
+	background: none;
+	border: 1.5px solid black;
+	border-radius: 18px;
+	font-weight: bold;
+	font-size: 1.1em;
+	padding: 0 18px;
+}
+.right-btns {
+	position: absolute;
+	display: flex;
+	height: 38px;
+	align-items: center;
+	right: 30px;
+}
+.right-btns > * {
+	font-weight: bold;
+	font-size: 1.1em;	
+	border: 1.5px solid black;
+	color: black;
+	border-radius: 18px;
+	padding: 5px 18px;
+ }
+ .btn.del-btn {
+ 	margin-left: 15px;
+ 	border: 1.5px solid red;
+ 	color: red;
+ }

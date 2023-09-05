@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/mypage_layout}">
+<th:block layout:fragment="customStyle">
+<style th:inline="css" type="text/css">
+
+    .reviewWrapTitle {
+        text-align: center;
+        font-size: 26px;
+        font-weight: 550;
+        margin: 150px 0 50px;
+        color: #43604E;
+    }
+
+
+	.reviewtWrap{
+    	padding: 5px 30px 20px; 
+    	border: 2px solid #F3F3F3; 
+    	border-radius: 7px; 
+    	margin: 0 180px;	
+    	box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.1);    	
+	}
+     table.reviewTable {
+        width: 100%;
+
+     }
+
+     table.reviewTable th {
+		border-bottom: 2px solid #DDE4E0; 
+		padding: 10px 5px;
+		color: #43604E;
+
+
+     } 
+
+    table.reviewTable td {
+        max-width: 300px; 
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        border-bottom: 1px dotted #E3E3E3;
+        color: #43604E;
+
+    }     
+
+	.room-image{
+		width: 100px;
+		height: 70px;
+		margin: 10px 0;
+
+	} 
+
+	.buildName {
+		font-size: 13px;
+		color: #979797;
+
+	}	   	
+	.bi-star-fill {
+	    color: #86C69F;
+	    margin-right: 1px;
+
+	} 
+    .noMessage{
+    	padding : 10px 0;
+        text-align: center;
+        font-size: 16px;
+        color: #9C9A9A;	   
+    }   	
+
+	.pagination {
+		padding: 0 auto;
+		margin: 0 auto;
+		display: flex;
+		justify-content: center;
+		position: relative;
+		bottom: 10px;
+		margin-top: 50px;
+	}       
+	.pagination a {
+		width: 30px;
+		height: 30px;
+		align-items: center;
+		justify-content: center;
+		float: left;
+		display: flex;
+		text-decoration: none;
+		color: #7e8279;
+		line-height: 1.5;
+		border-radius: 6px;
+	}
+	.pagination .arrow-l .bi-play-fill{
+		transform: rotate(180deg);
+	}
+	.pagination .num {
+		
+		border: 1.5px solid #ebeeea;
+		margin: 0 3.5px;
+	}
+	.num:hover {
+		border: none;
+		background: #86C69F;
+		color: white;
+	}
+	.left:hover, .right:hover {
+		color: #86C69F;
+	}
+	.pagination a:active {
+		cursor: default;
+		color: #448860;
+	}
+	.pagination .active > a {
+		border: none;
+		background: #7e8279;
+		color: white;
+	}
+</style>
+
+</th:block>
+<th:block layout:fragment="content">
+
+	<div class=reviewWrapTitle>작성한 리뷰 관리</div>  
+	<div class=reviewtWrap>  
+	    <table class="reviewTable">
+	        <thead>
+	            <tr>
+			        <th style="width: 13%; padding-left: 30px;">매물</th>
+			        <th style="width: 11%; padding-left: 20px;">평점</th>
+	                <th style="width: 63%;">내용</th>
+	                <th style="width: 13%; text-align: center;">작성일</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	            <tr th:each="review : ${reviews}" th:unless="${reviews.empty}" th:onclick="'redirectToRoomDetails(\'' + ${review.room.roomId} + '\');'" style="cursor: pointer;">
+
+					<td>	           
+	                    <img th:src="@{/room/photo(roomId=${review.room.roomId})}" class="room-image" />	                  
+	                </td>
+	                <td>
+	                    <span th:each="star : ${#numbers.sequence(1, review.score)}" class="bi bi-star-fill"></span>
+	                </td>
+					 <td >
+		                <div th:text="'[' +${review.room.buildingName} + ']'" class="buildName" style="margin-top:-17px; margin-bottom: 2px;" ></div>  
+		                <div th:text=" ${review.content}"></div>
+	                </td>
+	                <td th:text="${#temporals.format(review.createDate, 'yyyy-MM-dd')}" style="text-align: center; color: #B2B2B2;"></td>
+	            </tr>
+	            <tr th:if="${reviews.empty}">
+	                <td colspan="4" class="noMessage" >작성한 리뷰가 없습니다!</td>
+	            </tr>
+	        </tbody>
+	    </table>
+    </div>
+        
+		<div class="page" th:unless="${reviews.empty}">
+		    <ul class="pagination pagination-modal">
+		        <li th:if="${reviews.number > 0}" th:class="${reviews.number > 0 ? '' : 'disabled'}">
+		            <a th:href="@{/mypage/review/list(page=0)}" class="arrow-lf left"><i class="bi bi-rewind-fill"></i></a>
+		        </li>
+		        <li th:if="${reviews.number > 0}" th:class="${reviews.number > 0 ? '' : 'disabled'}">
+		            <a th:href="@{/mypage/review/list(page=${reviews.number - 1})}" class="arrow arrow-l left"><i class="bi bi-play-fill"></i></a>
+		        </li>
+		        <li th:each="pageNumber : ${#numbers.sequence(0, reviews.totalPages - 1)}" th:class="${pageNumber == reviews.number ? 'active' : ''}">
+		            <a th:href="@{/mypage/review/list(page=${pageNumber})}" th:text="${pageNumber + 1}" class="num"></a>
+		        </li>
+		        <li th:if="${reviews.number < reviews.totalPages - 1}" th:class="${reviews.number < reviews.totalPages - 1 ? '' : 'disabled'}">
+		            <a th:href="@{/mypage/review/list(page=${reviews.number + 1})}" class="arrow arrow-r right"><i class="bi bi-play-fill"></i></a>
+		        </li>
+		        <li th:if="${reviews.number < reviews.totalPages - 1}" th:class="${reviews.number < reviews.totalPages - 1 ? '' : 'disabled'}">
+		            <a th:href="@{/mypage/review/list(page=${reviews.totalPages - 1})}" class="arrow-rf right"><i class="bi bi-fast-forward-fill"></i></a>
+		        </li>
+		    </ul>
+		</div>
+    </th:block>
+
+<th:block layout:fragment="customScript">
+	<script th:inline="javascript" type="text/javascript">
+	
+    function redirectToRoomDetails(roomId) {
+  	  window.location.href = "/room/detail/" + roomId;
+  	}   	
+	</script>
+</th:block>
+
+    

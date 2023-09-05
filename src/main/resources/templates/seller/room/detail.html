@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/seller_layout}">
+<th:block layout:fragment="customHead">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<link href="/style/seller/roomAdd.css" rel="stylesheet" type="text/css" />
+</th:block>
+
+
+<th:block layout:fragment="customStyle">
+	<style th:inline="css" type="text/css"></style>
+</th:block>
+
+
+<th:block layout:fragment="content">
+	<div class="content">
+		<h1>매물상세</h1>
+		
+		<div id="roomInsert">
+			<form id="saveForm" action="/seller/room/edit" method="post" enctype="multipart/form-data" autocomplete="off">
+			    <div id="formElements">
+					<input type="hidden" name="seller" th:value="${loginedSellerId}" />
+					<input type="hidden" name="roomId" th:value="${room.roomId}" />
+					<input type="hidden" name="isPhotoEdit" id="isPhotoEdit" value="0" />
+					<div class="info-blocks">
+						<div class="detail-blocks">
+					        <span class="left-div">월/전세</span>
+					        <div class="middle-div text-left">
+						        <input type="radio" name="costType" value="월세" th:checked="${room.costType.toString() == '월세'}" ><span class="blank"> 월세</span><input type="radio" name="costType" value="전세" th:checked="${room.costType.toString() == '전세'}" > 전세
+					        </div>
+						</div>
+						<div class="detail-blocks">
+				            <span class="left-div">가격</span> 
+				            <div class="middle-div monthlyCost text-left">
+						        <div id="monthlyCost">월세 <input type="number" name="monthCost" th:value="${room.monthCost}"/> 만원</div>
+						        <div>보증금 <input type="number" name="deposit" th:value="${room.deposit}"/> 만원</div>
+						        <div>관리비 <input type="number" name="manageCost" th:value="${room.manageCost}"/> 만원</div>
+				            </div>
+						</div>
+					</div>
+			        <div class="info-blocks">
+			        	<div class="detail-blocks">
+				        	<span class="left-div">방 종류</span>
+				        	<div class="middle-div">
+						        <select name="type">
+								    <option value="원룸" th:selected="${room.type.toString() == '원룸'}">원룸</option>
+								    <option value="오피스텔" th:selected="${room.type.toString() == '오피스텔'}">오피스텔</option>
+								    <option value="고시원" th:selected="${room.type.toString() == '고시원'}">고시원</option>
+								</select>
+				        	</div>
+			        	</div>
+			        	<div class="detail-blocks">
+							<span class="left-div">즉시 입주</span>
+							<div class="middle-div text-left">
+						        <input type="radio" name="isRoomIn" th:checked="${room.isRoomIn == true}"><span class="blank"> 가능</span><input type="radio" name="isRoomIn" value="false" th:checked="${room.isRoomIn == false}">불가능
+							</div>
+			        	</div>
+			        	<div class="detail-blocks">
+					        <span class="left-div">건물명</span>
+					        <div class="middle-div">
+						        <input type="text" name="buildingName" class="middle-input" th:value="${room.buildingName}" required/>
+					        </div>
+			        	</div>
+			        	<div class="detail-blocks address-input">
+					        <span class="left-div">주소</span>
+					        <div class="middle-div">
+						        <input type="text" id="jibunAddress" name="address" class="middle-input address-search" placeholder="주소를 검색해주세요" onclick="execDaumPostcode()" th:value="${room.address}" readonly required/>
+						        <i class="bi bi-search" onclick="execDaumPostcode()"></i>
+					        </div>
+			        	</div>
+			        	
+			        	<div class="detail-blocks address-input" style="min-height: 30px;">
+					        <span class="left-div"></span>
+					        <div class="middle-div"><input type="text" name="roomNumber" class="middle-input" th:value="${room.roomNumber}" placeholder="상세 주소를 입력해주세요   ex) 103호" required/></div>
+			        	</div>
+			        </div>
+			        
+			        <div class="blank-box"></div>
+			        
+			        <div class="info-blocks" id="roomImage-block">
+			        	<div class="detail-blocks" style="align-items: flex-start;">
+					        <span class="left-div" style="margin-top:35px;">매물 사진</span>
+					        <div class="middle-div">
+						        <div class="file_list">
+						        	<div class="myFile" th:each="roomPhoto : ${roomPhotos}">
+							        	<div class="imagePreview" onclick="openFileInput(event)"><img th:src="@{'/seller/room/photo?photoId=' + ${roomPhoto.photoId}}" alt="Room Photo" class="roomImg"/></div>
+					                    <div class="file_input">
+					                        <input type="hidden" name="fileName" readonly th:value="${roomPhoto.fileName}"/>
+					                        <input type="file" name="uploadFile" onchange="selectFile(this);" style="display:none;"/>
+					                    </div>
+					                    <button type="button" onclick="removeFile(this);" class="btns del_btn" style="display: block;"><span style="color: white;" class="minus-icon">ㅡ</span></button>
+						        	</div>
+					            </div>
+					            <button type="button" onclick="addFile();" class="btns fn_add_btn"><span style="color: white;">파일 추가</span></button>
+			                    <span style="font-size: 0.9em; color: #c7c7c7;">최대 5장 등록 가능합니다</span>
+					        </div>
+			        	</div>
+				        <div class="detail-blocks floor">
+				            <span class="left-div">매물/건물층</span>
+				            <div class="middle-div">
+						        <input type="number" name="roomFloor" th:value="${room.roomFloor}"/><span style="margin: 0 7px;">/</span><input type="number" name="totalFloor" th:value="${room.totalFloor}"/><span style="margin-left: 7px;">층</span>
+				            </div>
+				        </div>
+				        <div class="detail-blocks">
+					        <span class="left-div">면적</span>
+					        <div class="middle-div">
+						        <input type="float" name="size" th:value="${room.size}" class="short-input"/><span style="margin: 0 7px;">㎡</span>
+					        </div>
+				        </div>
+				        <div class="detail-blocks">
+					        <span class="left-div">방향</span>
+					        <div class="middle-div">
+						        <input type="text" name="direction" class="short-input" th:value="${room.direction}" placeholder="ex) 남향"/>
+					        </div>
+				        </div>
+				        <div class="detail-blocks">
+					        <span class="left-div">엘리베이터</span>
+					        <div class="middle-div text-left">
+						        <input type="radio" name="isElevator" value="true" th:checked="${room.isElevator == true}"><span class="blank"> 있음</span><input type="radio" name="isElevator" value="false" th:checked="${room.isElevator == false}"> 없음
+					        </div>
+				        </div>
+				        <div class="detail-blocks">
+					        <span class="left-div">냉난방</span>
+					        <div class="middle-div">
+						        <input type="text" name="heatInfo" class="middle-input" th:value="${room.heatInfo}" placeholder="ex) 개별난방"/>
+					        </div>
+				        </div>
+				        <div class="detail-blocks">
+					        <span class="left-div">주차</span>
+					        <div class="middle-div">
+						        <input type="text" name="parkingInfo" class="middle-input" th:value="${room.parkingInfo}" placeholder="ex) 총 8대"/>
+					        </div>
+				        </div>
+				        <div class="detail-blocks">
+					        <span class="left-div">안전 시설</span>
+					        <div class="middle-div">
+						        <input type="text" name="securityInfo" class="long-input" th:value="${room.securityInfo}" placeholder="건물 내 안전 시설을 입력해주세요  ex) CCTV, 현관 도어락, 각 방 도어락"/>
+					        </div>
+				        </div>
+				        <div class="detail-blocks">
+					        <span class="left-div">인터넷</span>
+					        <div class="middle-div">
+						        <input type="text" name="internetInfo" class="long-input" th:value="${room.internetInfo}" placeholder="유선, 무선 WIFI, 개별 인터넷 설치가능"/>
+					        </div>
+				        </div>
+				        <div class="detail-blocks">
+					        <span class="left-div">성별분리</span>
+					        <div class="middle-div">
+						        <input type="text" name="genderInfo" class="long-input" th:value="${room.genderInfo}" placeholder="남여층 분리되어 있음"/>
+					        </div>
+				        </div>
+				        <div id="offer">
+				        	<div class="detail-blocks">
+					            <span class="left-div">제공 식사</span>
+					            <div class="middle-div">
+						            <input type="text" name="foodOffer" class="long-input" th:value="${room.foodOffer}" placeholder="ex) 라면, 밥, 김치, 커피, 차"/>
+					            </div>
+				        	</div>
+				        	<div class="detail-blocks">
+					            <span class="left-div">제공 비품</span>
+					            <div class="middle-div">
+						            <input type="text" name="amenityOffer" class="long-input" th:value="${room.amenityOffer}" placeholder="ex) 세탁세제"/>
+					            </div>
+				        	</div>
+				        </div>
+			        </div>
+			        <div class="info-blocks">
+			        	<div class="detail-blocks option-select">
+				        	<span class="left-div">공용 옵션</span>
+				        	<div class="middle-div">
+					    		<th:block th:each="optionType : ${optionTypes}" th:if="${optionType.isShare == true}">
+					    			<th:block th:if="${optionType.sortOrder == 6}"><br /></th:block>
+								    <label class="option-selects">
+								        <input type="checkbox" th:name="'optionType'" th:value="${optionType.optionType}"
+								        		th:checked="${thisRoomOptions.![optionType.optionType].contains(optionType.optionType)}"/>
+								        <span th:text="${optionType.optionName}"></span>
+								    </label>
+								</th:block>
+				        	</div>
+			        	</div>
+			        	<div class="detail-blocks option-select">
+				        	<span class="left-div">방 옵션</span>
+				        	<div class="middle-div">
+					    		<th:block th:each="optionType : ${optionTypes}" th:if="${optionType.isShare == false}">
+					    			<th:block th:if="${optionType.optionName == '냉장고' or optionType.optionName == '침대'}"><br /></th:block>
+								    <label class="option-selects">
+								        <input type="checkbox" th:name="'optionType'" th:value="${optionType.optionType}"
+								        		th:checked="${thisRoomOptions.![optionType.optionType].contains(optionType.optionType)}"/>
+								        <span th:text="${optionType.optionName}"></span>
+								    </label>
+								</th:block>
+				        	</div>
+			        	</div>
+			    	</div>
+			    	
+			    	<div class="blank-box"></div>
+			    	
+			    	<div class="info-blocks">
+			    		<div class="detail-blocks">
+					        <span class="left-div">교통정보</span>
+					        <div class="middle-div">
+						        <input type="text" name="transportInfo" class="long-input"  th:value="${room.transportInfo}" placeholder="주변 교통시설을 입력해주세요  ex) 강남역 도보 10분"/>
+					        </div>
+			    		</div>
+			    		<div class="detail-blocks" style="margin-bottom: 0;">
+					        <span class="left-div">매물 소개</span>
+					        <div class="middle-div">
+						        <input type="text" name="intro" class="long-input" th:value="${room.intro}" placeholder="한줄 소개를 입력해 주세요"/>
+					        </div>
+			    		</div>
+			    		<div class="detail-blocks">
+					        <span class="left-div"></span>
+					        <div class="middle-div">
+						        <textarea id="target-textarea" name="description" class="long-input" rows="5" placeholder="상세 소개를 입력해 주세요"></textarea>
+					        </div>
+			    		</div>
+			    	</div>
+			    </div>
+			    <div class="bottom-btns">
+				    <button type="button" id="roomAddBtn" class="btn btn-dark left-btn" onclick="fileCheck(this.form)">수정</button>
+				    <div class="right-btns">
+					    <a th:href="@{/seller/room/list}" class="btn btn-dark list-btn">목록</a>
+					    <!-- <a th:href="@{/seller/room/delete(roomId=${room.roomId})}" class="btn btn-danger del-btn" onclick="roomDelCheck(this)">삭제</a> -->
+					    <a th:href="@{/seller/room/delete(roomId=${room.roomId})}" class="btn btn-danger del-btn" onclick="return roomDelCheck()">삭제</a>
+				    </div>
+			    </div>
+			</form>
+		</div>
+	</div>
+</th:block>
+
+
+
+
+
+
+
+<th:block layout:fragment="customScript">
+	<script th:inline="javascript">
+		var isPhoto = ([[${roomPhotos}]].length == 0);
+		/* 이미지 수정여부 확인 */
+		var isPhotoEdit = 0;
+	
+		$(document).ready(function() {
+			toggleMonthlyCost();
+			toggleOfferDiv();
+			
+			/* 불러올 이미지 없으면 기본폼 생성 */
+			if(isPhoto) {
+				var formElements = $('.file_list');
+				var addDefaultImageForm = `
+		        	<div class="myFile">
+			        	<div class="imagePreview" onclick="openFileInput(event)"><span class="plus-icon">+</span></div>
+	                    <div class="file_input">
+	                        <input type="hidden" name="fileName" readonly/>
+	                        <input type="file" name="uploadFile" onchange="selectFile(this);" style="display:none;"/>
+	                    </div>
+	                    <button type="button" onclick="removeFile(this);" class="btns del_btn"><span style="color: white;" class="minus-icon">ㅡ</span></button>
+	                    <span class="main-img">메 인 사 진</span>
+		        	</div>
+				`;
+				formElements.append(addDefaultImageForm);
+			} else {
+				var addedMainImg = $(".myFile:first");
+				var addMainImgSpan = `<span class="main-img">메 인 사 진</span>`;
+				addedMainImg.append(addMainImgSpan);
+			}
+			/* insertAdjacentHTML
+				첫번째 인자 : 위치 지정
+				두번째 인자 : 추가하려는 HTML문자열
+				
+				beforebegin : 해당 요소 바로 앞에 추가
+				afterbegin : 해당 요소의 첫번째 자식 요소로 추가
+				beforeend : 해당 요소의 마지막 자식요소로 추가
+				afterend : 해당 요소 바로 뒤에 추가
+			*/
+			
+			
+			/* 불러온 이미지 개수 */
+			fileCount = $('.myFile').length;
+			fileChooseCount = fileCount;
+			
+			/* textarea html형식 해석 */
+			var mySangse = [[${room.description}]];
+			mySangse = mySangse.replace(/<br>/g, "\n");
+			$('#target-textarea').val(mySangse);
+			resize();
+		})
+	</script>
+	
+	<!-- submit -> textarea 줄바꿈 변환, 파일선택 비었으면 alert -->
+		<script th:inline="javascript" type="text/javascript">
+		function fileCheck(frm) {
+			var addCheck = confirm('매물을 수정하시겠습니까?');
+			if(addCheck) {
+				if (fileChooseCount == 0){
+					alert("매물 사진은 최소 1장 이상 등록해주세요");
+					return false;
+				}
+				var content = $("#target-textarea").val();
+				content = content.replace(/(?:\r\n|\r|\n)/g, '<br>');
+				$("#target-textarea").val(content);
+				frm.submit();
+			}
+		}
+	</script>
+	
+	<!-- textarea 자동길이조절 -->
+	<script th:inline="javascript" type="text/javascript">
+		function resize() {
+	        let textarea = document.getElementById("target-textarea");
+	        if(textarea) {
+		        textarea.style.height = "auto"; // 자동으로 높이를 조정하도록 설정
+		        textarea.style.height = textarea.scrollHeight + 7 + "px"; // 스크롤이 생긴 후의 높이로 설정
+	        }
+	    }
+	
+	    document.addEventListener("input", resize);
+	    window.addEventListener("load", resize);
+	</script>
+	
+	<!-- 주소 찾기 -->
+	<script th:inline="javascript" type="text/javascript">
+	    function execDaumPostcode() {
+	        new daum.Postcode({
+	            oncomplete: function(data) {
+	                var roadAddr = data.roadAddress;
+	                var extraRoadAddr = '';
+	                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+	                    extraRoadAddr += data.bname;
+	                }
+	                if(data.buildingName !== '' && data.apartment === 'Y'){
+	                   extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+	                }
+	                if(extraRoadAddr !== ''){
+	                    extraRoadAddr = ' (' + extraRoadAddr + ')';
+	                }
+	                document.getElementById("jibunAddress").value = data.jibunAddress;
+	            }
+	        }).open();
+	    }
+	</script>
+	
+	<!-- 파일 업로드 관련 -->
+	<script th:inline="javascript" type="text/javascript">
+		var totalFileCount = 5;
+		var fileCount = 0;
+		var fileChooseCount = 0;
+		
+		// 파일 선택(imagePriview)
+		function openFileInput(event) {
+			const targetDiv = event.currentTarget;
+		    const fileInput = targetDiv.closest('.myFile').querySelector('input[name="uploadFile"]');
+		    fileInput.click();
+		}
+		
+		// 파일 선택
+	    function selectFile(element) {
+	    	isPhotoEdit = isPhotoEdit+1;
+	    	$("#isPhotoEdit").val(isPhotoEdit);
+			
+	        const file = element.files[0];	//선택된 파일정보
+	        const filename = element.closest('.file_input').firstElementChild;
+	        							//파일명을 표시하는 입력 요소를 가리킴.
+	        							// <div class="file_input">의 첫번째 자식요소에 파일이름을 표시
+	        const reader = new FileReader();							
+	        /* const imagePreview = document.querySelector('.imagePreview'); */
+	       /*  const imagePreview = $(this).closest('.file_list').find('.imagePreview'); */
+	        const imagePreview = element.closest('.myFile').querySelector('.imagePreview');
+	        							
+	        // 1. 파일 선택 창에서 취소 버튼이 클릭된 경우
+	        //	  파일명이 안보이게 하겠다.
+	        if ( !file ) {
+	            filename.value = '';
+	            return false;
+	        }
+	        
+	        // 2. 파일 크기가 10MB를 초과하는 경우
+	        const fileSize = Math.floor(file.size / 1024 / 1024);
+	        if (fileSize > 10) {
+	            alert('10MB 이하의 파일로 업로드해 주세요.');
+	            filename.value = '';
+	            element.value = '';
+	            return false;
+	        }
+	
+	        // 3. 파일명 지정
+	        filename.value = file.name;
+	        
+	        // 4. 이미지 미리보기
+	        reader.onload = function(e) {
+		        imagePreview.innerHTML = ''; // 이미지를 업데이트하기 전에 기존의 내용을 지웁니다.
+		
+		        const img = document.createElement('img');
+		        img.src = e.target.result;
+		        img.classList.add('roomImg');
+		        imagePreview.appendChild(img);
+		        
+		        const cancleBtn = element.closest('.myFile').querySelector('.cancle-icon');
+		        if(cancleBtn) {
+			        cancleBtn.style.display = 'none';
+		        }
+		        const delBtn = element.closest('.myFile').querySelector('.btns.del_btn');
+		        delBtn.style.display = 'block';
+		    }
+		
+		    if (file) {
+		    	fileChooseCount = fileChooseCount+1;
+		        reader.readAsDataURL(file);
+		    }
+	    }
+		
+		// 파일 추가
+	    function addFile() {
+	    	if(fileCount == totalFileCount) {
+				alert('최대 5개까지 등록 가능합니다');
+				return false;
+			}
+	        
+	        var lastFileList = $('.myFile').last();
+	        var newFileElement = `
+        		<div class="myFile">
+	        		<div class="imagePreview" onclick="openFileInput(event)"><span class="plus-icon">+</span></div>
+		        	<div class="file_input">
+		                <input type="hidden" name="fileName" readonly/>
+		                <input type="file" name="uploadFile" onchange="selectFile(this);" style="display:none;"/>
+		            </div>
+		            <span class="cancle-icon" onclick="cancleFile(this);">ㅡ</span>
+		            <button type="button" onclick="removeFile(this);" class="btns del_btn"><span class="minus-icon" style="color: white;">ㅡ</span></button>
+	            </div>
+	        `;
+	        
+			lastFileList.after(newFileElement);
+	        
+	        
+	     	// 파일개수 제한
+	        fileCount = fileCount+1;
+	    }
+		
+	 	// 파일 삭제
+	    function removeFile(element) {
+	       isPhotoEdit = isPhotoEdit+1;
+	       $("#isPhotoEdit").val(isPhotoEdit);
+	       
+	       const fileAddBtn = element.nextElementSibling;
+	       if (fileAddBtn) {
+	           const inputs = element.previousElementSibling.querySelectorAll('input');
+	           inputs.forEach(input => input.value = '')
+	            
+	           // 미리보기 이미지 삭제
+		       const previewDiv = document.querySelector('.imagePreview');
+			   const imgElement = previewDiv.querySelector('img');
+			   if (imgElement) {
+				   imgElement.remove(); // img 태그 삭제
+				   
+				   const plusIcon = document.createElement('span');
+				   plusIcon.classList.add('plus-icon');
+				   plusIcon.textContent = '+';
+				   previewDiv.appendChild(plusIcon);
+				
+				   const delBtn = element.closest('.myFile').querySelector('.btns.del_btn');
+				   delBtn.style.display = 'none';
+				   fileChooseCount = fileChooseCount-1;
+			   }
+        
+	           return false;
+	       }
+	       element.parentElement.remove();
+	        
+	       fileCount = fileCount-1;
+	       fileChooseCount = fileChooseCount-1;
+	    }
+	 	
+	 	// 파일 추가 취소
+	    function cancleFile(element) {
+	        element.parentElement.remove();
+	        fileCount = fileCount-1;
+	    }
+	</script>
+	
+	<script>
+		function roomDelCheck() {
+		    return confirm('매물을 삭제하시겠습니까?');
+		}
+	</script>
+	
+	<!-- 월/전세 선택에 따른 월세 입력칸 보이기/숨기기 -->
+	<script th:inline="javascript" type="text/javascript">
+	    const monthlyCostDiv = document.getElementById('monthlyCost');
+	    const radioButtons = document.querySelectorAll('input[name="costType"]');
+	    const monthlyCostInput = monthlyCostDiv.querySelector('input[name="monthCost"]');
+		
+	    function toggleMonthlyCost() {
+	      const selectedValue = document.querySelector('input[name="costType"]:checked').value;
+
+	      if (selectedValue === '월세') {
+	        monthlyCostDiv.style.display = 'inline-block';
+	      } else {
+	        monthlyCostDiv.style.display = 'none';
+	        monthlyCostInput.value = 0;
+	      }
+	    }
+	    
+	    for (let i = 0; i < radioButtons.length; i++) {
+	      radioButtons[i].addEventListener('change', toggleMonthlyCost);
+	    }
+	</script>
+	
+	<!-- 방종류 선택에 따른 제공 입력칸 보이기/숨기기 -->
+	<script th:inline="javascript" type="text/javascript">
+	    const typeSelect = document.getElementsByName('type')[0];
+	    const offerDiv = document.getElementById('offer');
+	    const foodOfferInput = offerDiv.querySelector('input[name="foodOffer"]');
+	    const amenityOfferInput = offerDiv.querySelector('input[name="amenityOffer"]');
+	
+	    function toggleOfferDiv() {
+	        if (typeSelect.value === '고시원') {
+	            offerDiv.style.display = 'block';
+	        } else {
+	            offerDiv.style.display = 'none';
+	            foodOfferInput.value = '';
+	            amenityOfferInput.value = '';
+	        }
+	    }
+	
+	    typeSelect.addEventListener('change', toggleOfferDiv);
+	</script>
+</th:block>
+
+    
+    

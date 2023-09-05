@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<th:block layout:fragment="customStyle">
+<style th:inline="css" type="text/css">
+	
+	.login-select-main {
+		margin: 120px 20px 60px;
+	}
+	
+	.login-select-wrapper {
+		text-align: center;
+	}
+	
+	.login-select-wrapper h1.title {
+		margin-bottom: 7.5vh;
+		font-size: 35px;
+    	font-weight: bold;
+	}
+	
+	.login-form-wrapper {
+		background-color: rgb(248, 248, 248);
+		border: 1px solid rgb(232, 232, 232);
+		width: 450px;
+		margin: 0 auto;
+		padding: 50px 20px;
+		
+	}
+	
+	form.login-form {
+		padding: 0 50px 20px;
+	}
+	
+	form button.login-button {
+		width: 100%;
+	}
+	
+	
+	div.other-link {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-around;
+	}
+	
+	div.other-link a {
+		text-decoration: none;
+		color: black;
+	}
+	
+	div.other-link a:hover {
+		color: rgba(var(--bs-link-color-rgb));
+	}
+	
+	
+	
+	/*modal*/
+	.custom-modal{
+		background-color: rgba(255,255,255,1);
+		border: 1px solid gray;
+		padding: 10px 10px;
+		width: 450px;
+		position: absolute;
+		z-index: 100;
+		top: 35%;
+		left: 50%;
+		transform: translateX(-50%);
+		box-shadow: black 1px 1px 6px 0px;
+	}
+	
+	.custom-modal .modal-control {
+		text-align: right;
+		margin: 0 5px;
+		
+	}
+	
+	.custom-modal .modal-control .close-button {
+		padding: 0;
+		margin: 0;
+		border: 0;
+		background-color: unset;
+		font-size: 1.4rem;
+	}
+	
+	.modal-content-title {
+		text-align: center;
+		margin-bottom: 30px;
+	}
+	.modal-content-title h4 {
+		font-weight: bold;
+	}
+	.modal-content-title p {
+		margin: 0;
+	}
+	
+	.modal-content{
+		margin-bottom: 40px;
+	}
+	
+	.modal-background {
+		width: 100vw;
+	    height: 100vh;
+	    position: absolute;
+	    top: 0;
+	    left: 0;
+	    background-color: rgba(40,40,40,0.4);
+	    z-index: 100;
+	}
+	.modal-message .message-error {
+		color: red;
+	}
+	
+	.modal-form-input-wrapper {
+		width: 300px;
+	}
+	
+	.login-select {
+		width: 450px;
+		font-size: 18px;
+		font-weight: bold;
+		margin: 0 auto;
+	}
+	
+	label.nav-link {
+		color: lightgray;
+		cursor: pointer;
+	}
+	
+	button.btn-green {
+		 background-color: #76BB91;
+		 color:white;
+		 border-radius: 0;
+	}
+	
+	button.btn-green:hover {
+		background-color: rgb(82, 163, 113) !important;
+		color: white;
+	}
+	
+	.nav-tabs .nav-link.active {
+	    border-width: 2px;
+	}
+	
+	.nav-link:focus, .nav-link:hover {
+    	color: #65ba8a;
+	}
+	.form-control {
+		border-radius: 0;
+		margin-top: -1px;
+		padding: 0.55rem 0.75rem;
+	}
+	input:focus, input:active{
+		outline: none !important;
+		border: var(--bs-border-width) solid var(--bs-border-color) !important;
+		border-color: none;
+		box-shadow: none !important;
+	}
+	
+</style>
+
+</th:block>
+<th:block layout:fragment="content">
+	
+	<div class="login-select-main">
+		<div class="login-select-wrapper">
+			<h1 class="title">로그인</h1>
+			<ul class="nav nav-tabs login-select" role="tablist">
+				<li class="nav-item w-50" role="presentation">
+					<input type="radio" name="loginType" id="consumerLoginRadio" value="consumer" th:checked="${loginType == 'consumer'}" hidden/>
+					<label for="consumerLoginRadio" class="nav-link w-100" data-bs-toggle="tab" style="border-radius: 0;">구매자</label>
+				</li>
+				<li class="nav-item w-50" role="presentation">
+					<input type="radio" name="loginType" id="sellerLoginRadio" value="seller" th:checked="${loginType == 'seller'}" hidden/>
+					<label for="sellerLoginRadio" class="nav-link w-100" data-bs-toggle="tab" style="border-radius: 0;">판매자</label>
+				</li>
+			</ul>
+			<div class="login-form-wrapper">
+				<div class="mb-2">
+					<span th:if="${param.error}" style="color:orangered; font-weight: bold;">이메일과 비밀번호를 다시 확인해주세요.</span>
+					<span th:if="${param.logout}" style="color:green; font-weight: bold;">로그아웃 되었습니다.</span>
+				</div>
+				<form action="/consumer/login" method="post" id="login-form" class="login-form mb-2">
+					<input type="text" name="username" class="form-control py-2" placeholder="이메일" required/>
+					<input type="password" name="password" class="form-control mb-4 py-2" placeholder="비밀번호" required/>
+					<button type="submit" class="btn btn-green login-button" style="border-radius: 0;">구매자 로그인</button>
+				</form>
+				
+				<div class="other-link d-flex" style="flex-direction: row; justify-content: space-around;">
+					<span>
+						<a href="#" onclick="openUserFindModal();">계정 찾기</a> / <a href="#" onclick="openPasswordFindModal();">비밀번호 찾기</a>
+					</span>
+					<span>
+						<a id="joinButton" href="/join/consumer">회원가입</a>
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal-background" style="display:none;"></div>
+	
+	<!-- ########## Modals ##########-->
+	<div id="user-find-modal" class="custom-modal" style="display:none;">
+		<div class="modal-control">
+			<button type="button" id="user-find-modal-close-button" class="close-button"><i class="bi bi-x-lg"></i></button>
+		</div>
+		<div class="modal-content" style="align-items: center;">
+			<div class="modal-content-title">
+				<h4>계정찾기</h4>
+			</div>
+			<div>
+				<form action="#" id="user-find">
+					<div class="modal-form-input-wrapper" style="margin: 0 auto; text-align: center; display: flex;">
+						<input type="email" name="email" id="findEmail" class="form-control" placeholder="이메일을 입력해주세요." style="width: 80%; vertical-align: middle;" required/>
+						<button type="submit" class="btn btn-green" style="width: 20%; vertical-align: middle;">찾기</button>
+					</div>
+					<div class="modal-message" style="text-align: left;">
+						<span class="message-user-exists" style="display:none;">계정이 존재합니다.</span>
+						<span class="message-user-not-found" style="display:none;">계정을 찾을 수 없습니다.</span>
+						<span class="message-error" style="display:none;">처리중 에러가 발생했습니다.</span>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div id="password-find-modal" class="custom-modal" style="display:none;">
+		<div class="modal-control">
+			<button type="button" id="password-find-modal-close-button" class="close-button"><i class="bi bi-x-lg"></i></button>
+		</div>
+		<div class="modal-content" style="align-items: center;">
+			<div class="modal-content-title">
+				<h4>비밀번호 찾기</h4>
+			</div>
+			<div>
+				<!--확인 코드 이메일 발송 폼-->
+				<form action="#" id="password-find-form" class="mb-2">
+					<div class="modal-form-input-wrapper" style="display: flex;margin: 0 auto; text-align: center; ">
+						<input type="email" name="email" id="changePasswordByEmail" class="form-control" placeholder="이메일을 입력해주세요." style="width: 80%; vertical-align: middle;" required/>
+						<button type="submit" class="btn btn-green" style="width: 20%; vertical-align: middle;">찾기</button>
+					</div>
+				</form>
+				<div class="modal-message" style="text-align: left;">
+					<span class="message-email-sended" style="display:none;">입력하신 이메일로 링크를 전송했습니다.</span>
+					<span class="message-email-not-found" style="display:none;">입력하신 이메일을 찾을 수 없습니다.</span>
+					<span class="message-error" style="display:none;">처리중 에러가 발생했습니다.</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+</th:block>
+<th:block layout:fragment="customScript">
+	<script th:inline="javascript" type="text/javascript">
+		
+		
+		
+		$("#user-find-modal-close-button").click( function() {
+			$(".modal-background").hide();
+			$('.modal-message').children().hide();
+			$("#findEmail").val(null);
+			$("#user-find-modal").hide();
+		});
+		$("#password-find-modal-close-button").click( function() {
+			$(".modal-background").hide();
+			$("#password-find-modal").hide();
+			$("#changePasswordByEmail").val(null);
+			$('.modal-message').children().hide();
+		});
+		
+		
+		function openUserFindModal() {
+			$(".modal-background").show();
+			$("#user-find-modal").show();
+		}
+		function openPasswordFindModal() {
+			$(".modal-background").show();
+			$('#password-find-modal').show();
+		}
+		
+		
+		function userExistsMessageShowControl(type) {
+			$("#user-find-modal .modal-message > span").hide();
+			if(type === 'user-found') {
+				$("span.message-user-exists").show();
+			} else if( type === 'user-not-found') {
+				$("span.message-user-not-found").show();
+			} else if(type === 'error') {
+				$("span.message-error").show();
+			}
+		}
+		
+		function passwordFindMessageShowControl(type) {
+			$("#password-find-modal .modal-message > span").hide();
+			if(type === 'email-sended') {
+				$("#password-find-modal span.message-email-sended").show();
+			} else if(type === 'email-not-found') {
+				$("#password-find-modal span.message-email-not-found").show();
+			} else if(type === 'error') {
+				$("#password-find-modal span.message-error").show();
+			}
+		}
+		
+		
+		$(document).ready(function() {
+			
+			//기본 로그인타입 설정
+			$("input[name='loginType']:checked")[0].labels[0].click();
+			$("input[name='loginType']").change( function(e) {
+				console.log($("input[name='loginType']:checked").val());
+				let loginType = $("input[name='loginType']:checked").val();
+				
+				let loginForm = $("#login-form");
+				loginForm[0].reset();
+				loginForm.attr("action","/"+loginType+"/login");
+				
+				if(loginType === "seller") {
+					$("#login-form button[type='submit']").text("판매자 로그인");
+				} else if(loginType === "consumer") {
+					$("#login-form button[type='submit']").text("구매자 로그인");
+				}
+				
+				$("#joinButton").attr("href","/join/"+loginType);
+			});
+			$("input[name='loginType']:checked").change();
+			
+			
+			$("#user-find").submit(function(e) {
+				e.preventDefault();
+				if($("#findEmail").val() === "" || $("#findEmail").val() == null) {
+					alert("이메일을 입력해주세요.");
+					$("#findEmail").focus();
+					return;
+				}
+				
+				let loginType = $("input[name='loginType']:checked").val();
+				
+				$.ajax({
+					type: "get",
+					url: '/'+loginType+'/login/find/account',
+					data: {"email":$("#findEmail").val()},
+					success: function(res) {
+						console.log(res);
+						if(res === true) {
+							userExistsMessageShowControl('user-found');
+						} else if(res === false) {
+							userExistsMessageShowControl('user-not-found');
+						}
+					},
+					error: function(error) {
+						console.log(error);
+						userExistsMessageShowControl('error');
+					}
+				});
+			});
+			
+			
+			$("#password-find-form").submit(function(e) {
+				e.preventDefault();
+				if($("#changePasswordByEmail").val() === "" || $("#changePasswordByEmail").val() == null) {
+					alert("이메일을 입력해주세요.");
+					$("#changePasswordByEmail").focus();
+					return;
+				}
+				let loginType = $("input[name='loginType']:checked").val();
+				$.ajax({
+					type: "get",
+					url: "/"+loginType+"/login/find/password",
+					data: {"email": $("#changePasswordByEmail").val()},
+					success: function(res) {
+						console.log(res);
+						if(res === 'email-sended') {
+							passwordFindMessageShowControl('email-sended');
+						} else if(res === 'email-not-found') {
+							passwordFindMessageShowControl('email-not-found');
+						}
+					},
+					error: function(error) {
+						console.log(error);
+						passwordFindMessageShowControl("error");
+					}
+				});
+			});
+			
+			
+		});
+		
+	</script>
+</th:block>

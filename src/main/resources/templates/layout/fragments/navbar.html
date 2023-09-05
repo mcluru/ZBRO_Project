@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+<th:block th:fragment="navbar">
+<nav class="navbar navbar-light bg-white navigation">
+	<div class="container-fluid mx-4">
+    	<a class="navbar-brand" href="/">
+    		<img src="/images/navi_logo.png" alt="로고">
+    	</a>
+	    <div class="d-flex justify-content-end" id="navButtons">
+			<ul class="navbar-nav" style="align-items:center;">
+				<li class="nav-item1 me-3">
+					<a class="nav-link" th:href="@{/room/search}">지도</a>
+				</li>
+				<li class="nav-item1 dropdown">
+					<a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+					   꿀팁/질문
+					</a>
+					<ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="position: absolute; left: -30px;">
+						<li><a class="dropdown-item text-center" th:href="@{/community/list(type='꿀팁')}">꿀팁</a></li>
+						<li><a class="dropdown-item text-center" th:href="@{/community/list(type='질문')}">질문</a></li>
+					</ul>
+				</li>
+				<li class="nav-item1" sec:authorize="hasRole('ROLE_CONSUMER')">
+					<a class="nav-link" th:href="@{/mypage}">마이페이지</a>
+				</li>
+				<li class="nav-item ms-4" sec:authorize="isAnonymous()">
+					<a class="nav-link btn btn-link m-0" th:href="@{/login}">로그인 | 회원가입</a>
+				</li>
+				<li class="nav-item ms-4" sec:authorize="hasRole('ROLE_SELLER')">
+					<a class="nav-link btn btn-link m-0" th:href="@{/seller}">판매자페이지</a>
+				</li>
+				<li class="nav-item ms-4" sec:authorize="hasRole('ROLE_CONSUMER')">
+					<a class="nav-link btn btn-link m-0" th:href="@{/logout}">로그아웃</a>
+				</li>
+			</ul>
+	    </div>
+  	</div>
+</nav>
+
+</th:block>
+</body>
+</html>

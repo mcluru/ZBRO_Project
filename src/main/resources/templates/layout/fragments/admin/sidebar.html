@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<body>
+<th:block th:fragment="sidebar">
+
+	<aside>
+		<div class="aside-inner">
+			<div class="logo-wrapper aside-section">
+				<img src="/images/seller_logo.png" alt="로고" class="logo">
+				<a href="/" class="go-home">홈페이지 바로가기</a>
+			</div>
+			<div class="profile-wrapper aside-section">
+				<p class="username">관리자 님</p>
+			</div>
+			<div class="menu-wrapper aside-section">
+				<div class="menu">
+					<p class="outer-menu"><a href="/admin/seller/list">판매자회원정보</a></p>
+				</div>
+
+			</div>
+		</div>
+	</aside>
+
+</th:block>
+</body>
+</html>

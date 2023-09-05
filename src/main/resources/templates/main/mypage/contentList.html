@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/mypage_layout}">
+<th:block layout:fragment="customStyle">
+<style th:inline="css" type="text/css">
+		
+    .communityWrapTitle {
+        text-align: center;
+        font-size: 26px;
+        font-weight: 550;
+        margin: 150px 0 50px;
+        color: #43604E;
+    }
+    
+    .commumityWrap{
+    	padding: 5px 30px 20px; 
+    	border: 2px solid #F3F3F3; 
+    	border-radius: 7px; 
+    	margin: 0 180px;	
+    	box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.1);    	
+    }   
+
+
+	ul.nav {
+		border-bottom: 2px solid #DDE4E0; 
+	  	list-style-type: none;
+	  	
+	}
+	
+	ul.nav li {
+	  	display: inline-block;	  	
+	}
+	
+	ul.nav li a {
+	  	display: block;
+	  	padding: 10px 20px;
+	  	text-decoration: none;
+	  	color: black;
+	}
+	
+	ul.nav li span {
+	  	display: block;
+	  	padding: 10px 20px;
+	  	font-weight: bold;
+	  	
+	}
+
+	table#communityTable {
+	   	width: 100%;
+
+	}
+	table#communityTable tr {
+        border-bottom: 1px dotted #E3E3E3;
+    }
+	
+	table#communityTable td {
+	    padding: 10px;
+		
+	}	
+	
+	table#communityTable td a {
+		text-decoration: none;
+		color: #43604E;	    		
+	}	
+	
+	ul.nav li a.selected {
+    	font-weight: bold;
+    	color: #43604E;
+    }
+    
+	ul.nav li a:not(.selected) {
+    	color: #B2B2B2;
+	}
+	
+
+    .noMessage {
+        text-align: center;
+        font-size: 16px;
+        color: #9C9A9A;
+    }
+
+	.pagination {
+		padding: 0 auto;
+		margin: 30px auto;
+		display: flex;
+		justify-content: center;
+		position: relative;
+		bottom: 10px;
+
+	}       
+	.pagination a {
+		width: 30px;
+		height: 30px;
+		align-items: center;
+		justify-content: center;
+		float: left;
+		display: flex;
+		text-decoration: none;
+		color: #7e8279;
+		line-height: 1.5;
+		border-radius: 6px;
+	}
+	.pagination .arrow-l .bi-play-fill{
+		transform: rotate(180deg);
+	}
+	.pagination .num {
+		
+		border: 1.5px solid #ebeeea;
+		margin: 0 3.5px;
+	}
+	.num:hover {
+		border: none;
+		background: #86C69F;
+		color: white;
+	}
+	.left:hover, .right:hover {
+		color: #86C69F;
+	}
+	.pagination a:active {
+		cursor: default;
+		color: #448860;
+	}
+	.pagination .active > a {
+		border: none;
+		background: #7e8279;
+		color: white;
+	}	
+	.pagination .disabled > a {
+	    pointer-events: none;
+	    cursor: default;
+    }
+    
+         
+        
+</style>
+
+</th:block>
+
+<th:block layout:fragment="content">
+        <div class=communityWrapTitle>작성한 글 보기</div>        
+        <div class=commumityWrap>
+			<ul class="nav">
+		    <li class="nav-item">
+		        <a class="nav-link" th:class="${type == '꿀팁' ? 'selected' : ''}" href="?type=꿀팁">꿀팁</a>
+		    </li>
+		    <li class="nav-item">
+		        <a class="nav-link" th:class="${type == '질문' ? 'selected' : ''}" href="?type=질문">질문</a>
+		    </li>
+			<li class="nav-item" style="margin-left: auto; ">
+			   <span class="date" style= "padding-right: 30px; color: #43604E;" >작성일</span>
+			</li>
+			</ul>
+        
+	        <table id="communityTable">
+	            <tbody>
+	                <th:block th:if="${type == '꿀팁'}" >
+	                    <tr th:unless="${!#lists.isEmpty(tips)}" class="noMessage">
+	                        <td>작성한 게시글이 없습니다!</td>
+	                    </tr>	                
+	                    <tr th:each="community : ${tips}" th:attr="data-type=${community.type}">
+	                        <td>
+	                            <a th:href="@{/community/detail?postId={id}(id=${community.postId})}">
+	                                <span th:text="${community.title}"></span>
+	                            </a>
+	                        </td>
+	                        <td th:text="${#temporals.format(community.createDate, 'yyyy-MM-dd')}" style="text-align: right; font-size: 15px; color: #B2B2B2;" ></td>
+	                    </tr>
+	                </th:block>
+	                <th:block th:if="${type == '질문'}">
+	                    <tr th:unless="${!#lists.isEmpty(questions)}" class="noMessage">
+	                        <td>작성한 게시글이 없습니다!</td>
+	                    </tr>	                
+	                    <tr th:each="community : ${questions}" th:attr="data-type=${community.type}">
+	                        <td>
+	                            <a th:href="@{/community/detail?postId={id}(id=${community.postId})}">
+	                                <span th:text="${community.title}"></span>
+	                            </a>
+	                        </td>
+	                        <td th:text="${#temporals.format(community.createDate, 'yyyy-MM-dd')}" style="text-align: right; font-size: 15px; color: #B2B2B2;"></td>
+	                    </tr>
+	                </th:block>
+	            </tbody>
+	        </table>
+        </div>
+
+        
+		<div class="pagination" th:if="${type == '꿀팁'} and ${tipsPage.totalElements > 0}">
+		    <ul class="pagination pagination-modal">
+		        <li th:if="${tipsPage.number > 0}" th:class="${tipsPage.number > 0 ? '' : 'disabled'}">
+		            <a th:href="@{/mypage/content/list(type=${type}, page=0)}" class="arrow-lf left"><i class="bi bi-rewind-fill"></i></a>
+		        </li>
+		        <li th:if="${tipsPage.number > 0}" th:class="${tipsPage.number > 0 ? '' : 'disabled'}">
+		            <a th:href="@{${'/mypage/content/list'} + '?type=' + ${type} + '&amp;page=' + ${tipsPage.number - 1}}" class="arrow arrow-l left"><i class="bi bi-play-fill"></i></a>
+		        </li>
+		        <li th:each="pageNumber : ${#numbers.sequence(0, tipsPage.totalPages - 1)}" th:class="${pageNumber == tipsPage.number ? 'active' : ''}">
+		            <a th:href="@{${'/mypage/content/list'} + '?type=' + ${type} + '&amp;page=' + ${pageNumber}}" th:text="${pageNumber + 1}" class="num"></a>
+		        </li>
+		        <li th:if="${tipsPage.number < tipsPage.totalPages - 1}" th:class="${tipsPage.number < tipsPage.totalPages - 1 ? '' : 'disabled'}">
+		            <a th:href="@{${'/mypage/content/list'} + '?type=' + ${type} + '&amp;page=' + ${tipsPage.number + 1}}" class="arrow arrow-r right"><i class="bi bi-play-fill"></i></a>
+		        </li>
+		        <li th:if="${tipsPage.number < tipsPage.totalPages - 1}" th:class="${tipsPage.number < tipsPage.totalPages - 1 ? '' : 'disabled'}">
+		            <a th:href="@{${'/mypage/content/list'} + '?type=' + ${type} + '&amp;page=' + ${tipsPage.totalPages - 1}}" class="arrow-rf right"><i class="bi bi-fast-forward-fill"></i></a>
+		        </li>
+		    </ul>
+		</div>
+		
+				
+		<div class="pagination" th:if="${type == '질문'} and ${questionsPage.totalElements > 0}">
+		    <ul class="pagination pagination-modal">
+		        <li th:if="${questionsPage.number > 0}" th:class="${questionsPage.number > 0 ? '' : 'disabled'}">
+		            <a th:href="@{/mypage/content/list(type=${type}, page=0)}" class="arrow-lf left"><i class="bi bi-rewind-fill"></i></a>
+		        </li>
+		        <li th:if="${questionsPage.number > 0}"  th:class="${questionsPage.number > 0 ? '' : 'disabled'}">
+		            <a th:href="@{${'/mypage/content/list'} + '?type=' + ${type} + '&amp;page=' + ${questionsPage.number - 1}}" class="arrow arrow-l left"><i class="bi bi-play-fill"></i></a>
+		        </li>
+		        <li th:each="pageNumber : ${#numbers.sequence(0, questionsPage.totalPages - 1)}" th:class="${pageNumber == questionsPage.number ? 'active' : ''}">
+		            <a th:href="@{${'/mypage/content/list'} + '?type=' + ${type} + '&amp;page=' + ${pageNumber}}" th:text="${pageNumber + 1}" class="num"></a>
+		        </li>
+		        <li th:if="${questionsPage.number < questionsPage.totalPages - 1}" th:class="${questionsPage.number < questionsPage.totalPages - 1 ? '' : 'disabled'}">
+		            <a th:href="@{${'/mypage/content/list'} + '?type=' + ${type} + '&amp;page=' + ${questionsPage.number + 1}}" class="arrow arrow-r right"><i class="bi bi-play-fill"></i></a>
+		        </li>
+		        <li th:if="${questionsPage.number < questionsPage.totalPages - 1}" th:class="${questionsPage.number < questionsPage.totalPages - 1 ? '' : 'disabled'}">
+		            <a th:href="@{${'/mypage/content/list'} + '?type=' + ${type} + '&amp;page=' + ${questionsPage.totalPages - 1}}" class="arrow-rf right"><i class="bi bi-fast-forward-fill"></i></a>
+		        </li>
+		    </ul>
+		</div>
+
+</th:block>
+<th:block layout:fragment="customScript">
+<script th:inline="javascript" type="text/javascript">
+
+</script>
+</th:block>
+
+
+    

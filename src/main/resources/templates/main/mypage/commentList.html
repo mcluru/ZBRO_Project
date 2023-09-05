@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/mypage_layout}">
+<th:block layout:fragment="customStyle">
+<style th:inline="css" type="text/css">
+
+    .commentWrapTitle {
+        text-align: center;
+        font-size: 26px;
+        font-weight: 550;
+        margin: 150px 0 50px;
+        color: #43604E;
+    }
+	
+	.commentWrap{
+    	padding: 5px 30px 20px; 
+    	border: 2px solid #F3F3F3; 
+    	border-radius: 7px; 
+    	margin: 0 180px;	
+    	box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.1);    	
+    	
+    }
+	
+     table#commentTable {
+         width: 100%;
+
+     }
+     
+     table#commentTable th {
+		border-bottom: 2px solid #DDE4E0; 
+        padding: 10px 20px;
+        color: #43604E;
+
+     }      
+     
+     table#commentTable td {
+     	border-bottom: 1px dotted #E3E3E3;
+        padding: 8px 10px 4px;
+     }
+     
+   
+         
+    table#commentTable th:nth-child(2),
+    table#commentTable td:nth-child(2) {
+        text-align: right;
+    }    
+     
+    table#commentTable td a {
+        text-decoration: none;
+        color:black;
+    }  
+    .noMessage{
+        text-align: center;
+        font-size: 16px;
+        color: #9C9A9A;	   
+    }  
+	.comment-content {
+	  display: inline-block;
+	  max-width: 800px;
+	  white-space: nowrap;
+	  overflow: hidden;
+	  text-overflow: ellipsis;
+	}      
+
+    
+	.pagination {
+		padding: 0 auto;
+		margin: 0 auto;
+		display: flex;
+		justify-content: center;
+		position: relative;
+		bottom: 10px;
+		margin-top: 50px;
+	}       
+	.pagination a {
+		width: 30px;
+		height: 30px;
+		align-items: center;
+		justify-content: center;
+		float: left;
+		display: flex;
+		text-decoration: none;
+		color: #7e8279;
+		line-height: 1.5;
+		border-radius: 6px;
+	}
+	.pagination .arrow-l .bi-play-fill{
+		transform: rotate(180deg);
+	}
+	.pagination .num {
+		
+		border: 1.5px solid #ebeeea;
+		margin: 0 3.5px;
+	}
+	.num:hover {
+		border: none;
+		background: #86C69F;
+		color: white;
+	}
+	.left:hover, .right:hover {
+		color: #86C69F;
+	}
+	.pagination a:active {
+		cursor: default;
+		color: #448860;
+	}
+	.pagination .active > a {
+		border: none;
+		background: #7e8279;
+		color: white;
+	}	
+</style>
+
+</th:block>
+<th:block layout:fragment="content">
+    <div class=commentWrapTitle>작성한 댓글 보기</div> 
+    <div class=commentWrap>  
+    
+	    <table id="commentTable">
+	        <thead>
+	            <tr>
+	                <th>댓글</th>
+	                <th style= "padding-right: 30px;">작성일</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	            <tr th:unless="${comments.empty}" th:each="comment : ${comments}">
+	                <td>
+	                    <a class="comment-content"  th:href="@{/community/detail?postId={id}(id=${comment.post.postId})}">
+	                        <span th:text="'[' + ${comment.post.title} + ']'" style="color: #AEAEAE"></span>
+	                        <span th:text="${comment.content}" style="color: #43604E;"></span>
+	                    </a>
+	                </td>
+	                <td th:text="${#temporals.format(comment.createDate, 'yyyy-MM-dd')}"style="font-size: 15px; color: #B2B2B2;"></td>
+	            </tr>
+                <tr th:if="${comments.empty}">
+                    <td colspan="2" class="noMessage">작성한 댓글이 없습니다!</td>
+                </tr>	            
+	        </tbody>
+	    </table>
+	    
+	    
+	</div>
+
+	<div class="page" th:unless="${comments.empty}">
+	    <ul class="pagination pagination-modal">
+	        <li th:if="${comments.number > 0}" th:class="${comments.number > 0 ? '' : 'disabled'}">
+	            <a th:href="@{/mypage/comment/list(page=0)}" class="arrow-lf left"><i class="bi bi-rewind-fill"></i></a>
+	        </li>
+	        <li th:if="${comments.number > 0}" th:class="${comments.number > 0 ? '' : 'disabled'}">
+	            <a th:href="@{/mypage/comment/list(page=${comments.number - 1})}" class="arrow arrow-l left"><i class="bi bi-play-fill"></i></a>
+	        </li>
+	        <li th:each="pageNumber : ${#numbers.sequence(0, comments.totalPages - 1)}" th:class="${pageNumber == comments.number ? 'active' : ''}">
+	            <a th:href="@{/mypage/comment/list(page=${pageNumber})}" th:text="${pageNumber + 1}" class="num"></a>
+	        </li>
+	        <li th:if="${comments.number < comments.totalPages - 1}" th:class="${comments.number < comments.totalPages - 1 ? '' : 'disabled'}">
+	            <a th:href="@{/mypage/comment/list(page=${comments.number + 1})}" class="arrow arrow-r right"><i class="bi bi-play-fill"></i></a>
+	        </li>
+	        <li th:if="${comments.number < comments.totalPages - 1}" th:class="${comments.number < comments.totalPages - 1 ? '' : 'disabled'}">
+	            <a th:href="@{/mypage/comment/list(page=${comments.totalPages - 1})}" class="arrow-rf right"><i class="bi bi-fast-forward-fill"></i></a>
+	        </li>
+	    </ul>
+	</div>
+	
+<div class="page" th:unless="${comments.empty}">
+	<ul class="pagination pagination-modal">
+		
+	</ul>
+</div>	
+	
+</th:block>
+<th:block layout:fragment="customScript">
+	<script th:inline="javascript" type="text/javascript">
+	
+	</script>
+</th:block>
+
+    

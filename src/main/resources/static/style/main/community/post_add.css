@@ -1,0 +1,150 @@
+body {
+	-webkit-user-select:none;
+	-moz-user-select:none;
+	-ms-user-select:none;
+	user-select:none;
+}
+.draggable {
+  -webkit-user-select:text;
+  -moz-user-select:text;
+  -ms-user-select:text;
+  user-select:text
+}
+.main-wrapper {
+	padding-top: 50px;
+	padding-bottom: 50px;
+	/* background: blue; */
+	text-align: center; /* 전체글자 중앙정렬 */
+	display: flex;
+	flex-direction: column;
+	width:90%;
+	min-width: 900px;
+}
+
+
+/* ------------- 크게 나눈 블럭 ------------- */
+.postBlock {
+	/* background: red; */
+	margin: 0 auto 10px;
+}
+
+
+/* ------------- 상단 타입 ------------- */
+.topType {
+	margin-bottom: 50px;
+}
+
+
+/* ------------- 중앙 에디터 ------------- */
+.editorbox {
+	width: 90%;
+	max-width: 1200px;
+	min-width: 850px;
+}
+.myselect {
+	/* background: green; */
+	text-align: left;
+	display: flex;
+	margin-bottom: 5px;
+}
+.myselect > span {
+	font-size: 1.15em;
+	margin-right: 7px;
+	font-weight: bold;
+	color: #616161;
+}
+
+
+/* ------------- 카테고리 선택박스 ------------- */
+.selectbox {
+	width: 80px;
+	height: 30px;
+    position: relative;
+    border: 2px solid #dfe4da;
+    z-index: 1;
+    background: white;
+    color: #97a888;
+}
+.selectbox:hover {
+	color: #86C69F;
+}
+.selectbox:before { /* 가상 선택자를 활용 화살표 대체 */
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    width: 0;
+    height: 0;
+    margin-top: -1px;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #97a888;
+}
+.selectbox label {
+    position: absolute;
+    /* left: 3px; */
+    padding: 0.5px .2em;  /* select의 여백 크기 만큼 */
+    z-index: -1;  /* IE8에서 label이 위치한 곳이 클릭되지 않는 것 해결 */
+}
+.selectbox select {
+    width: 100%;
+    padding-top: 0px;
+    padding-left: 3px;
+    opacity: 0;  /* 숨기기 */
+    filter:alpha(opacity=0);  /* IE8 숨기기 */
+    -webkit-appearance: none; /* 네이티브 외형 감추기 */
+    -moz-appearance: none;
+    appearance: none;
+}
+
+
+/* ------------- 제목 입력란 ------------- */
+.titleWrite {
+	width: 100%;
+	/* background: orange; */
+	padding: 2px 5px;
+	border: 2px solid #ebeeea;
+	margin-bottom: 10px;
+}
+.titleWrite:focus {
+	border: 2px solid #cacec8;
+	outline: none;
+}
+
+
+/* ------------- 내용 입력란 ------------- */
+.note-editor {
+	margin-bottom: 20px;
+}
+
+
+/* ------------- 버튼 ------------- */
+.btns {
+	/* background: orange; */
+	padding: 0 15px;
+	position: relative;
+	text-align: left;
+}
+.btns > * {
+	/* background: purple; */
+	padding: 0;
+	margin: 0;
+	font-weight: 600;
+}
+.goWrite {
+	padding: 8px 30px 7px;
+	right: 15px;
+	border-radius: 20px;
+	border: none;
+	background: #ebeeea;
+	position: absolute;
+	color: black;
+}
+.goWrite:hover {
+	background: #86C69F;
+	color: white;
+}
+.btn.goWrite:active {
+	background: #448860;
+	color: white;
+}
